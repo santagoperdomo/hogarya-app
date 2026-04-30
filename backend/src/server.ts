@@ -28,7 +28,7 @@ const limiter = rateLimit({
   standardHeaders: true,
   legacyHeaders: false,
 });
-app.use(limiter);
+app.use(limiter as unknown as express.RequestHandler);
 
 // CORS configurado para producción
 const corsOptions = {
