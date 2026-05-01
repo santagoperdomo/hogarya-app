@@ -17,6 +17,10 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+// Cuando la app corre detrás de un proxy (DigitalOcean, Vercel, etc.)
+// necesitamos confiar en el proxy para leer correctamente X-Forwarded-For.
+app.enable('trust proxy');
+
 // Configuración de seguridad
 app.use(helmet()); // Headers de seguridad
 
