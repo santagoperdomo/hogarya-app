@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "vite build",
     "backend": "tsx --env-file=backend/.env backend/src/server.ts",
-    "seed": "tsx --env-file=backend/.env backend/src/utils/seed.ts"
+    "seed": "tsx --env-file=backend/.env backend/src/utils/seed.ts",
+    "start": "node backend/dist/server.js"
   },
   "dependencies": {
     "@emotion/react": "11.14.0",
