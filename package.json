@@ -7,11 +7,11 @@
     "dev": "vite",
     "build": "vite build",
     "build:frontend": "vite build",
-    "build:app": "pnpm run build:frontend",
-    "backend": "cd backend && pnpm run dev",
-    "seed": "cd backend && pnpm run seed",
-    "start": "cd backend && pnpm run start",
-    "start:app": "pnpm run build:frontend && pnpm start"
+    "build:app": "npm run build",
+    "backend": "cd backend && npm run dev",
+    "seed": "cd backend && npm run seed",
+    "start": "cd backend && npm run start",
+    "start:app": "npm run build && npm start"
   },
   "dependencies": {
     "@emotion/react": "11.14.0",
