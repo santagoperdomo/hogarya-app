@@ -1,6 +1,6 @@
 # HogarYa Backend
 
-Backend API para HogarYa construido con Express, TypeScript y MongoDB.
+Backend API para HogarYa construido con Express, JavaScript y MongoDB Atlas.
 
 ## Requisitos Previos
 
@@ -59,17 +59,17 @@ pnpm run dev
 ```
 Inicia el servidor en modo desarrollo con hot-reload (nodemon).
 
-### Build
+### Ejecutar localmente
 ```bash
-pnpm run build
+pnpm run dev
 ```
-Compila TypeScript a JavaScript en el directorio `dist/`.
+Inicia el servidor con nodemon para desarrollo.
 
 ### Producción
 ```bash
 pnpm start
 ```
-Ejecuta el servidor compilado (requiere `pnpm run build` primero).
+Ejecuta el servidor JavaScript directamente desde `src/server.js`.
 
 ### Seed de Datos
 ```bash
@@ -117,32 +117,31 @@ Después de ejecutar el seed:
 backend/
 ├── src/
 │   ├── config/
-│   │   └── database.ts          # Configuración MongoDB
+│   │   └── database.js          # Configuración MongoDB
 │   ├── controllers/
-│   │   ├── auth.controller.ts   # Lógica de autenticación
-│   │   ├── trabajadores.controller.ts
-│   │   ├── reseñas.controller.ts
-│   │   └── perfil.controller.ts
+│   │   ├── auth.controller.js   # Lógica de autenticación
+│   │   ├── trabajadores.controller.js
+│   │   ├── reseñas.controller.js
+│   │   └── perfil.controller.js
 │   ├── middleware/
-│   │   ├── auth.middleware.ts   # Verificación JWT
-│   │   └── errorHandler.ts      # Manejo de errores
+│   │   ├── auth.middleware.js   # Verificación JWT
+│   │   └── errorHandler.js      # Manejo de errores
 │   ├── models/
-│   │   ├── Usuario.ts           # Schema de Usuario
-│   │   ├── Trabajador.ts        # Schema de Trabajador
-│   │   └── Reseña.ts            # Schema de Reseña
+│   │   ├── Usuario.js           # Schema de Usuario
+│   │   ├── Trabajador.js        # Schema de Trabajador
+│   │   └── Reseña.js            # Schema de Reseña
 │   ├── routes/
-│   │   ├── auth.routes.ts
-│   │   ├── trabajadores.routes.ts
-│   │   ├── reseñas.routes.ts
-│   │   └── perfil.routes.ts
+│   │   ├── auth.routes.js
+│   │   ├── trabajadores.routes.js
+│   │   ├── reseñas.routes.js
+│   │   └── perfil.routes.js
 │   ├── utils/
-│   │   ├── generateToken.ts     # Helpers JWT
-│   │   └── seed.ts              # Script de seed
-│   └── server.ts                # Punto de entrada
+│   │   ├── generateToken.js     # Helpers JWT
+│   │   └── seed.js              # Script de seed
+│   └── server.js                # Punto de entrada
 ├── .env.example
 ├── .gitignore
 ├── package.json
-├── tsconfig.json
 └── README.md
 ```
 
@@ -162,11 +161,27 @@ backend/
 3. Configura variables de entorno en Railway dashboard
 4. Deploy automático desde main branch
 
+### DigitalOcean App Platform
+1. Crea cuenta en [DigitalOcean](https://www.digitalocean.com) y abre App Platform.
+2. Selecciona "Create App" y conecta tu repositorio.
+3. Elige el servicio de backend y configura la carpeta de código como `backend`.
+4. Configura el entorno a Node.js 20+.
+5. Build command: `pnpm install && pnpm run build:app`
+6. Start command: `pnpm start`
+7. Variables de entorno necesarias:
+   - `MONGODB_URI`
+   - `JWT_SECRET`
+   - `NODE_ENV=production`
+   - `FRONTEND_URL=https://hogarya.me`
+8. Agrega tu dominio personalizado `hogarya.me` en App Platform y sigue las instrucciones DNS para apuntar el dominio.
+
+> Nota: el frontend se construye en `backend/public` y el backend Express sirve la SPA en la misma aplicación. Esto permite una sola app para frontend y backend.
+
 ### Render
 1. Crea cuenta en [Render](https://render.com)
 2. New → Web Service
 3. Conecta repositorio
-4. Build Command: `cd backend && pnpm install && pnpm run build`
+4. Install Command: `cd backend && pnpm install`
 5. Start Command: `cd backend && pnpm start`
 6. Configura variables de entorno
 

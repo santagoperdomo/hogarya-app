@@ -1,8 +1,6 @@
-import { Response } from 'express';
-import Usuario from '../models/Usuario';
-import { AuthRequest } from '../middleware/auth.middleware';
+import Usuario from '../models/Usuario.js';
 
-export const updatePerfil = async (req: AuthRequest, res: Response): Promise<void> => {
+export const updatePerfil = async (req, res) => {
   try {
     if (!req.user) {
       res.status(401).json({
@@ -38,7 +36,7 @@ export const updatePerfil = async (req: AuthRequest, res: Response): Promise<voi
         telefono: usuario.telefono
       }
     });
-  } catch (error: any) {
+  } catch (error) {
     res.status(500).json({
       success: false,
       message: error.message || 'Error al actualizar perfil'

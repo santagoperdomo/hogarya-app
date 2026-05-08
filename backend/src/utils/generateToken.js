@@ -1,14 +1,7 @@
 import jwt from 'jsonwebtoken';
 
-export interface TokenPayload {
-  id: string;
-  email: string;
-  tipo: 'cliente' | 'trabajador';
-}
-
-export const generateToken = (payload: TokenPayload): string => {
+export const generateToken = (payload) => {
   const secret = process.env.JWT_SECRET;
-
   if (!secret) {
     throw new Error('JWT_SECRET no está definido en las variables de entorno');
   }
@@ -18,12 +11,11 @@ export const generateToken = (payload: TokenPayload): string => {
   });
 };
 
-export const verifyToken = (token: string): TokenPayload => {
+export const verifyToken = (token) => {
   const secret = process.env.JWT_SECRET;
-
   if (!secret) {
     throw new Error('JWT_SECRET no está definido en las variables de entorno');
   }
 
-  return jwt.verify(token, secret) as TokenPayload;
+  return jwt.verify(token, secret);
 };

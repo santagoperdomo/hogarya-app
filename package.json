@@ -6,9 +6,12 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "backend": "tsx --env-file=backend/.env backend/src/server.ts",
-    "seed": "tsx --env-file=backend/.env backend/src/utils/seed.ts",
-    "start": "node backend/dist/server.js"
+    "build:frontend": "vite build",
+    "build:app": "pnpm run build:frontend",
+    "backend": "cd backend && pnpm run dev",
+    "seed": "cd backend && pnpm run seed",
+    "start": "cd backend && pnpm run start",
+    "start:app": "pnpm run build:frontend && pnpm start"
   },
   "dependencies": {
     "@emotion/react": "11.14.0",
@@ -84,6 +87,7 @@
     "tailwindcss": "4.1.12",
     "ts-node": "^10.9.2",
     "tsx": "^4.21.0",
+    "typescript": "^6.0.3",
     "vite": "6.3.5"
   },
   "peerDependencies": {

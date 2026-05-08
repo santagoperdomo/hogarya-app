@@ -1,11 +1,6 @@
-import { Request, Response, NextFunction } from 'express';
-import { verifyToken, TokenPayload } from '../utils/generateToken';
+import { verifyToken } from '../utils/generateToken.js';
 
-export interface AuthRequest extends Request {
-  user?: TokenPayload;
-}
-
-export const authMiddleware = (req: AuthRequest, res: Response, next: NextFunction): void => {
+export const authMiddleware = (req, res, next) => {
   try {
     const authHeader = req.headers.authorization;
 
@@ -18,7 +13,6 @@ export const authMiddleware = (req: AuthRequest, res: Response, next: NextFuncti
     }
 
     const token = authHeader.substring(7);
-
     const decoded = verifyToken(token);
     req.user = decoded;
 

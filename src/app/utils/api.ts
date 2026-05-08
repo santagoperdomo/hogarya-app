@@ -1,5 +1,5 @@
 const API_URL =
-  import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+  import.meta.env.VITE_API_URL || "/api";
 
 // Helper para mapear _id a id (MongoDB a frontend)
 function mapMongoDoc(doc: any): any {

@@ -1,13 +1,10 @@
-import { Request, Response } from 'express';
-import Usuario from '../models/Usuario';
-import Trabajador from '../models/Trabajador';
-import { generateToken } from '../utils/generateToken';
-import { AuthRequest } from '../middleware/auth.middleware';
+import Usuario from '../models/Usuario.js';
+import Trabajador from '../models/Trabajador.js';
+import { generateToken } from '../utils/generateToken.js';
 
-export const signup = async (req: Request, res: Response): Promise<void> => {
+export const signup = async (req, res) => {
   try {
     let { email, password, nombre, tipo, telefono } = req.body;
-
     email = email?.trim().toLowerCase();
 
     if (!email || !password || !nombre || !tipo) {
@@ -52,7 +49,7 @@ export const signup = async (req: Request, res: Response): Promise<void> => {
       success: true,
       message: 'Usuario registrado exitosamente'
     });
-  } catch (error: any) {
+  } catch (error) {
     res.status(500).json({
       success: false,
       message: error.message || 'Error al registrar usuario'
@@ -60,7 +57,7 @@ export const signup = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
-export const login = async (req: Request, res: Response): Promise<void> => {
+export const login = async (req, res) => {
   try {
     let { email, password } = req.body;
     email = email?.trim().toLowerCase();
@@ -108,7 +105,7 @@ export const login = async (req: Request, res: Response): Promise<void> => {
         telefono: usuario.telefono
       }
     });
-  } catch (error: any) {
+  } catch (error) {
     res.status(500).json({
       success: false,
       message: error.message || 'Error al iniciar sesión'
@@ -116,7 +113,7 @@ export const login = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
-export const getSession = async (req: AuthRequest, res: Response): Promise<void> => {
+export const getSession = async (req, res) => {
   try {
     if (!req.user) {
       res.status(401).json({
@@ -145,7 +142,7 @@ export const getSession = async (req: AuthRequest, res: Response): Promise<void>
         telefono: usuario.telefono
       }
     });
-  } catch (error: any) {
+  } catch (error) {
     res.status(500).json({
       success: false,
       message: error.message || 'Error al obtener sesión'

@@ -3,6 +3,8 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import { connectDB } from './config/database.js';
 import { errorHandler } from './middleware/errorHandler.js';
 
@@ -16,6 +18,9 @@ dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const publicPath = path.join(__dirname, '..', 'public');
 
 // Cuando la app corre detrás de un proxy (DigitalOcean, Vercel, etc.)
 // necesitamos confiar en el proxy para leer correctamente X-Forwarded-For.
@@ -36,9 +41,9 @@ app.use(limiter);
 
 // CORS configurado para producción
 const corsOptions = {
-  origin: process.env.NODE_ENV === 'production' 
-    ? process.env.FRONTEND_URL || 'https://tu-dominio.vercel.app' 
-    : 'http://localhost:3000',
+  origin: process.env.NODE_ENV === 'production'
+    ? process.env.FRONTEND_URL || 'https://hogarya.me'
+    : 'http://localhost:5173',
   credentials: true,
 };
 app.use(cors(corsOptions));
@@ -46,12 +51,10 @@ app.use(cors(corsOptions));
 app.use(express.json({ limit: '10mb' })); // Limita tamaño de payload
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
+app.use(express.static(publicPath));
+
 app.get('/', (req, res) => {
-  res.json({
-    success: true,
-    message: 'HogarYa API funcionando correctamente',
-    version: '1.0.0'
-  });
+  res.sendFile(path.join(publicPath, 'index.html'));
 });
 
 app.use('/api/auth', authRoutes);
@@ -59,6 +62,13 @@ app.use('/api/trabajadores', trabajadoresRoutes);
 app.use('/api/reseñas', reseñasRoutes);
 app.use('/api/perfil', perfilRoutes);
 app.use('/api/solicitudes', solicitudesRoutes);
+
+app.get('*', (req, res, next) => {
+  if (req.originalUrl.startsWith('/api')) {
+    return next();
+  }
+  res.sendFile(path.join(publicPath, 'index.html'));
+});
 
 app.use(errorHandler);
 

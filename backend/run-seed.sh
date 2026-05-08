@@ -1,4 +1,11 @@
 #!/bin/bash
-cd /workspaces/default/code/backend
-export NODE_PATH="/pnpm-store/v10"
-/pnpm-store/v10/**/tsx/*/node_modules/.bin/tsx src/utils/seed.ts
+cd "$(dirname "$0")"
+
+if [ ! -f "package.json" ]; then
+  echo "❌ No se encontró backend/package.json"
+  exit 1
+fi
+
+echo "✅ Seed backend"
+pnpm install
+node src/utils/seed.js

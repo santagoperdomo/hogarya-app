@@ -5,7 +5,7 @@ Plataforma web que conecta clientes con trabajadores verificados en Barranquilla
 ## 🚀 Stack Tecnológico
 
 - **Frontend**: React 18 + TypeScript + Tailwind CSS v4 + React Router v7
-- **Backend**: Express + TypeScript + Node.js
+- **Backend**: Express + JavaScript + Node.js
 - **Base de Datos**: MongoDB Atlas (cloud)
 - **Autenticación**: JWT + bcrypt
 
@@ -20,7 +20,7 @@ Copia `backend/.env.example` a `backend/.env` y configura:
 MONGODB_URI=mongodb+srv://usuario:password@cluster.mongodb.net/hogarya?retryWrites=true&w=majority
 JWT_SECRET=tu_clave_jwt_segura_generada
 NODE_ENV=production
-FRONTEND_URL=https://tu-dominio.vercel.app
+FRONTEND_URL=https://hogarya.me
 ```
 
 **Importante:** Nunca subas `.env` a GitHub. Está en `.gitignore`.
@@ -34,9 +34,10 @@ FRONTEND_URL=https://tu-dominio.vercel.app
 - **HTTPS**: Automático en Vercel y DigitalOcean
 
 ### Despliegue
-1. **Frontend (Vercel)**: Conecta el repo a Vercel, configura `VITE_API_URL` con la URL del backend.
-2. **Backend (DigitalOcean)**: Usa App Platform, configura variables de entorno.
-3. **Base de Datos**: MongoDB Atlas con IP whitelist y usuario dedicado.
+1. **App unificada**: El repositorio ya contiene backend y frontend juntos.
+2. **Build**: `pnpm run build` generará el frontend en `backend/public` para que Express lo sirva.
+3. **Start**: En producción usa `pnpm start`, que arranca el backend Express.
+4. **Base de Datos**: MongoDB Atlas con IP whitelist y usuario dedicado.
 
 ---
 
@@ -89,7 +90,7 @@ NODE_ENV=development
 Desde el directorio raíz del proyecto:
 
 ```bash
-./node_modules/.bin/tsx backend/src/utils/seed.ts
+cd backend && pnpm run seed
 ```
 
 Deberías ver:
@@ -112,7 +113,7 @@ Deberías ver:
 
 **Terminal 1 - Backend:**
 ```bash
-./node_modules/.bin/tsx backend/src/server.ts
+cd backend && pnpm run dev
 ```
 
 Verás:
@@ -133,7 +134,8 @@ El frontend arrancará en el puerto configurado (usualmente 5173 o similar).
 
 ```bash
 # Crear un script que corre ambos
-pnpm run dev & ./node_modules/.bin/tsx backend/src/server.ts
+pnpm run dev & cd backend && pnpm run dev
+```
 ```
 
 ---
@@ -166,7 +168,7 @@ hogarya/
 │   │   ├── models/         # Schemas Mongoose
 │   │   ├── routes/         # Rutas Express
 │   │   ├── utils/          # Helpers, seed
-│   │   └── server.ts       # Punto de entrada
+│   │   └── server.js       # Punto de entrada
 │   ├── .env               # Variables de entorno (NO subir a git)
 │   └── package.json
 ├── src/                    # Frontend React
@@ -262,8 +264,9 @@ Error: Failed to fetch
 ### No aparecen trabajadores en el catálogo
 **Solución:**
 1. Verifica que el backend esté corriendo
-2. Ejecuta el seed nuevamente: `./node_modules/.bin/tsx backend/src/utils/seed.ts`
-3. Revisa la consola del navegador (F12) para ver errores
+2. Asegúrate de haber ejecutado `pnpm run build` para generar el frontend en `backend/public`
+3. Ejecuta el seed nuevamente: `cd backend && pnpm run seed`
+4. Revisa la consola del navegador (F12) para ver errores
 
 ### Error "MONGODB_URI not defined"
 **Solución:** Asegúrate de que el archivo `backend/.env` existe y tiene la variable correcta.

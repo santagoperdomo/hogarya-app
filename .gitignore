@@ -25,6 +25,7 @@ Thumbs.db
 dist/
 build/
 backend/dist/
+backend/public/
 
 # Credenciales y datos sensibles
 CREDENCIALES_PRUEBA.md

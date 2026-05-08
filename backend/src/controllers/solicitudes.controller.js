@@ -1,10 +1,8 @@
-import { Response } from 'express';
-import Solicitud from '../models/Solicitud';
-import Trabajador from '../models/Trabajador';
-import Usuario from '../models/Usuario';
-import { AuthRequest } from '../middleware/auth.middleware';
+import Solicitud from '../models/Solicitud.js';
+import Trabajador from '../models/Trabajador.js';
+import Usuario from '../models/Usuario.js';
 
-export const createSolicitud = async (req: AuthRequest, res: Response): Promise<void> => {
+export const createSolicitud = async (req, res) => {
   try {
     const { trabajador_id, servicio, descripcion, fecha_preferida, direccion } = req.body;
 
@@ -47,7 +45,7 @@ export const createSolicitud = async (req: AuthRequest, res: Response): Promise<
       success: true,
       data: solicitud
     });
-  } catch (error: any) {
+  } catch (error) {
     res.status(500).json({
       success: false,
       message: error.message || 'Error al crear solicitud'
@@ -55,7 +53,7 @@ export const createSolicitud = async (req: AuthRequest, res: Response): Promise<
   }
 };
 
-export const getSolicitudesCliente = async (req: AuthRequest, res: Response): Promise<void> => {
+export const getSolicitudesCliente = async (req, res) => {
   try {
     if (!req.user) {
       res.status(401).json({
@@ -73,7 +71,7 @@ export const getSolicitudesCliente = async (req: AuthRequest, res: Response): Pr
       success: true,
       data: solicitudes
     });
-  } catch (error: any) {
+  } catch (error) {
     res.status(500).json({
       success: false,
       message: error.message || 'Error al obtener solicitudes'
@@ -81,7 +79,7 @@ export const getSolicitudesCliente = async (req: AuthRequest, res: Response): Pr
   }
 };
 
-export const getSolicitudesTrabajador = async (req: AuthRequest, res: Response): Promise<void> => {
+export const getSolicitudesTrabajador = async (req, res) => {
   try {
     if (!req.user) {
       res.status(401).json({
@@ -108,7 +106,7 @@ export const getSolicitudesTrabajador = async (req: AuthRequest, res: Response):
       success: true,
       data: solicitudes
     });
-  } catch (error: any) {
+  } catch (error) {
     res.status(500).json({
       success: false,
       message: error.message || 'Error al obtener solicitudes'
@@ -116,7 +114,7 @@ export const getSolicitudesTrabajador = async (req: AuthRequest, res: Response):
   }
 };
 
-export const updateSolicitud = async (req: AuthRequest, res: Response): Promise<void> => {
+export const updateSolicitud = async (req, res) => {
   try {
     const { id } = req.params;
     const { estado, precio_acordado, notas_trabajador } = req.body;
@@ -157,7 +155,7 @@ export const updateSolicitud = async (req: AuthRequest, res: Response): Promise<
       success: true,
       data: solicitud
     });
-  } catch (error: any) {
+  } catch (error) {
     res.status(500).json({
       success: false,
       message: error.message || 'Error al actualizar solicitud'
@@ -165,7 +163,7 @@ export const updateSolicitud = async (req: AuthRequest, res: Response): Promise<
   }
 };
 
-export const calificarSolicitud = async (req: AuthRequest, res: Response): Promise<void> => {
+export const calificarSolicitud = async (req, res) => {
   try {
     const { id } = req.params;
     const { calificacion, comentario } = req.body;
@@ -234,7 +232,7 @@ export const calificarSolicitud = async (req: AuthRequest, res: Response): Promi
       success: true,
       data: solicitud
     });
-  } catch (error: any) {
+  } catch (error) {
     res.status(500).json({
       success: false,
       message: error.message || 'Error al calificar solicitud'

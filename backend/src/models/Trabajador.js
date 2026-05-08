@@ -1,22 +1,9 @@
-import mongoose, { Document, Schema } from 'mongoose';
+import mongoose from 'mongoose';
 
-export interface ITrabajador extends Document {
-  user_id: mongoose.Types.ObjectId;
-  nombre: string;
-  servicios: string[];
-  descripcion: string;
-  disponible: boolean;
-  calificacion: number;
-  telefono: string;
-  numReseñas: number;
-  createdAt: Date;
-  updatedAt: Date;
-}
-
-const trabajadorSchema = new Schema<ITrabajador>(
+const trabajadorSchema = new mongoose.Schema(
   {
     user_id: {
-      type: Schema.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: 'Usuario',
       required: true,
       unique: true
@@ -64,4 +51,4 @@ const trabajadorSchema = new Schema<ITrabajador>(
 trabajadorSchema.index({ servicios: 1 });
 trabajadorSchema.index({ nombre: 'text', servicios: 'text' });
 
-export default mongoose.model<ITrabajador>('Trabajador', trabajadorSchema);
+export default mongoose.model('Trabajador', trabajadorSchema);

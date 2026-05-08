@@ -1,23 +1,14 @@
-import mongoose, { Document, Schema } from 'mongoose';
+import mongoose from 'mongoose';
 
-export interface IReseña extends Document {
-  trabajador_id: mongoose.Types.ObjectId;
-  cliente_id: mongoose.Types.ObjectId;
-  cliente_nombre: string;
-  puntuacion: number;
-  comentario?: string;
-  createdAt: Date;
-}
-
-const reseñaSchema = new Schema<IReseña>(
+const reseñaSchema = new mongoose.Schema(
   {
     trabajador_id: {
-      type: Schema.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: 'Trabajador',
       required: true
     },
     cliente_id: {
-      type: Schema.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: 'Usuario',
       required: true
     },
@@ -44,4 +35,4 @@ const reseñaSchema = new Schema<IReseña>(
 
 reseñaSchema.index({ trabajador_id: 1, createdAt: -1 });
 
-export default mongoose.model<IReseña>('Reseña', reseñaSchema);
+export default mongoose.model('Reseña', reseñaSchema);

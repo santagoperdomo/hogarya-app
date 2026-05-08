@@ -1,38 +1,14 @@
-import mongoose, { Document, Schema } from 'mongoose';
+import mongoose from 'mongoose';
 
-export interface ISolicitud extends Document {
-  cliente_id: mongoose.Types.ObjectId;
-  trabajador_id: mongoose.Types.ObjectId;
-  servicio: string;
-  descripcion: string;
-  fecha_preferida?: Date;
-  direccion?: string;
-  estado: 'pendiente' | 'aceptada' | 'rechazada' | 'completada' | 'cancelada';
-  precio_acordado?: number;
-  notas_trabajador?: string;
-  calificacion?: number;
-  comentario_calificacion?: string;
-  imagenes_reseña?: string[];
-  evidencias_trabajador?: string[];
-  mensajes_chat?: {
-    remitente: 'cliente' | 'trabajador';
-    mensaje: string;
-    timestamp: Date;
-  }[];
-  fecha_completado?: Date;
-  createdAt: Date;
-  updatedAt: Date;
-}
-
-const solicitudSchema = new Schema<ISolicitud>(
+const solicitudSchema = new mongoose.Schema(
   {
     cliente_id: {
-      type: Schema.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: 'Usuario',
       required: true
     },
     trabajador_id: {
-      type: Schema.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: 'Trabajador',
       required: true
     },
@@ -112,4 +88,4 @@ solicitudSchema.index({ cliente_id: 1, createdAt: -1 });
 solicitudSchema.index({ trabajador_id: 1, createdAt: -1 });
 solicitudSchema.index({ estado: 1 });
 
-export default mongoose.model<ISolicitud>('Solicitud', solicitudSchema);
+export default mongoose.model('Solicitud', solicitudSchema);

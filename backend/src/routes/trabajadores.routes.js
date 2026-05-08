@@ -5,8 +5,8 @@ import {
   updateTrabajador,
   searchTrabajadores,
   getMisDatos
-} from '../controllers/trabajadores.controller';
-import { authMiddleware } from '../middleware/auth.middleware';
+} from '../controllers/trabajadores.controller.js';
+import { authMiddleware } from '../middleware/auth.middleware.js';
 
 const router = Router();
 

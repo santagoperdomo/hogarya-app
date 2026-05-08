@@ -1,9 +1,7 @@
-import { Response } from 'express';
-import Reseña from '../models/Reseña';
-import Trabajador from '../models/Trabajador';
-import { AuthRequest } from '../middleware/auth.middleware';
+import Reseña from '../models/Reseña.js';
+import Trabajador from '../models/Trabajador.js';
 
-export const createReseña = async (req: AuthRequest, res: Response): Promise<void> => {
+export const createReseña = async (req, res) => {
   try {
     const { trabajador_id, puntuacion, comentario } = req.body;
 
@@ -60,7 +58,7 @@ export const createReseña = async (req: AuthRequest, res: Response): Promise<vo
       success: true,
       data: reseña
     });
-  } catch (error: any) {
+  } catch (error) {
     res.status(500).json({
       success: false,
       message: error.message || 'Error al crear reseña'
@@ -68,7 +66,7 @@ export const createReseña = async (req: AuthRequest, res: Response): Promise<vo
   }
 };
 
-export const getReseñasByTrabajador = async (req: AuthRequest, res: Response): Promise<void> => {
+export const getReseñasByTrabajador = async (req, res) => {
   try {
     const { trabajador_id } = req.params;
 
@@ -78,7 +76,7 @@ export const getReseñasByTrabajador = async (req: AuthRequest, res: Response): 
       success: true,
       data: reseñas
     });
-  } catch (error: any) {
+  } catch (error) {
     res.status(500).json({
       success: false,
       message: error.message || 'Error al obtener reseñas'

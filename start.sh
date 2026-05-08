@@ -24,4 +24,4 @@ echo "   (Los logs aparecerán aquí)"
 echo ""
 
 # Iniciar backend
-./node_modules/.bin/tsx backend/src/server.ts
+cd backend && pnpm run start

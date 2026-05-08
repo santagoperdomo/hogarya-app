@@ -1,18 +1,7 @@
-import mongoose, { Document, Schema } from 'mongoose';
+import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
 
-export interface IUsuario extends Document {
-  email: string;
-  password: string;
-  nombre: string;
-  tipo: 'cliente' | 'trabajador';
-  telefono?: string;
-  createdAt: Date;
-  updatedAt: Date;
-  comparePassword(candidatePassword: string): Promise<boolean>;
-}
-
-const usuarioSchema = new Schema<IUsuario>(
+const usuarioSchema = new mongoose.Schema(
   {
     email: {
       type: String,
@@ -57,8 +46,8 @@ usuarioSchema.pre('save', async function () {
   this.password = await bcrypt.hash(this.password, salt);
 });
 
-usuarioSchema.methods.comparePassword = async function (candidatePassword: string): Promise<boolean> {
+usuarioSchema.methods.comparePassword = async function (candidatePassword) {
   return bcrypt.compare(candidatePassword, this.password);
 };
 
-export default mongoose.model<IUsuario>('Usuario', usuarioSchema);
+export default mongoose.model('Usuario', usuarioSchema);

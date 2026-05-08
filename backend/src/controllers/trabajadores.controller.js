@@ -1,8 +1,6 @@
-import { Request, Response } from 'express';
-import Trabajador from '../models/Trabajador';
-import { AuthRequest } from '../middleware/auth.middleware';
+import Trabajador from '../models/Trabajador.js';
 
-export const getAllTrabajadores = async (req: Request, res: Response): Promise<void> => {
+export const getAllTrabajadores = async (req, res) => {
   try {
     const trabajadores = await Trabajador.find().sort({ createdAt: -1 });
 
@@ -10,7 +8,7 @@ export const getAllTrabajadores = async (req: Request, res: Response): Promise<v
       success: true,
       data: trabajadores
     });
-  } catch (error: any) {
+  } catch (error) {
     res.status(500).json({
       success: false,
       message: error.message || 'Error al obtener trabajadores'
@@ -18,7 +16,7 @@ export const getAllTrabajadores = async (req: Request, res: Response): Promise<v
   }
 };
 
-export const getTrabajadorById = async (req: Request, res: Response): Promise<void> => {
+export const getTrabajadorById = async (req, res) => {
   try {
     const { id } = req.params;
 
@@ -35,7 +33,7 @@ export const getTrabajadorById = async (req: Request, res: Response): Promise<vo
       success: true,
       data: trabajador
     });
-  } catch (error: any) {
+  } catch (error) {
     res.status(500).json({
       success: false,
       message: error.message || 'Error al obtener trabajador'
@@ -43,7 +41,7 @@ export const getTrabajadorById = async (req: Request, res: Response): Promise<vo
   }
 };
 
-export const updateTrabajador = async (req: AuthRequest, res: Response): Promise<void> => {
+export const updateTrabajador = async (req, res) => {
   try {
     const { id } = req.params;
     const { servicios, descripcion, telefono, disponible } = req.body;
@@ -76,7 +74,7 @@ export const updateTrabajador = async (req: AuthRequest, res: Response): Promise
       success: true,
       data: trabajador
     });
-  } catch (error: any) {
+  } catch (error) {
     res.status(500).json({
       success: false,
       message: error.message || 'Error al actualizar trabajador'
@@ -84,7 +82,7 @@ export const updateTrabajador = async (req: AuthRequest, res: Response): Promise
   }
 };
 
-export const searchTrabajadores = async (req: Request, res: Response): Promise<void> => {
+export const searchTrabajadores = async (req, res) => {
   try {
     const { query } = req.params;
 
@@ -99,7 +97,7 @@ export const searchTrabajadores = async (req: Request, res: Response): Promise<v
       success: true,
       data: trabajadores
     });
-  } catch (error: any) {
+  } catch (error) {
     res.status(500).json({
       success: false,
       message: error.message || 'Error al buscar trabajadores'
@@ -107,7 +105,7 @@ export const searchTrabajadores = async (req: Request, res: Response): Promise<v
   }
 };
 
-export const getMisDatos = async (req: AuthRequest, res: Response): Promise<void> => {
+export const getMisDatos = async (req, res) => {
   try {
     if (!req.user) {
       res.status(401).json({
@@ -130,7 +128,7 @@ export const getMisDatos = async (req: AuthRequest, res: Response): Promise<void
       success: true,
       data: trabajador
     });
-  } catch (error: any) {
+  } catch (error) {
     res.status(500).json({
       success: false,
       message: error.message || 'Error al obtener datos del trabajador'

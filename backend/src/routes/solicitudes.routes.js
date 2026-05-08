@@ -5,8 +5,8 @@ import {
   getSolicitudesTrabajador,
   updateSolicitud,
   calificarSolicitud
-} from '../controllers/solicitudes.controller';
-import { authMiddleware } from '../middleware/auth.middleware';
+} from '../controllers/solicitudes.controller.js';
+import { authMiddleware } from '../middleware/auth.middleware.js';
 
 const router = Router();
 
