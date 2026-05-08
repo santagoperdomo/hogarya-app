@@ -8,6 +8,7 @@
     "build": "vite build",
     "build:frontend": "vite build",
     "build:app": "npm run build",
+    "postinstall": "cd backend && npm install",
     "backend": "cd backend && npm run dev",
     "seed": "cd backend && npm run seed",
     "start": "cd backend && npm run start",
