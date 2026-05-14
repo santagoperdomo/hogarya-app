@@ -71,6 +71,17 @@ export default function Header({ user, onLogout }: HeaderProps) {
                 onClick={() => navigate('/cliente/solicitudes')}
                 className="text-white hover:bg-[#26658C]/30"
               >
+                <Bell className="w-4 h-4" />
+              </Button>
+            )}
+
+            {currentUser?.tipo === 'trabajador' && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => navigate('/trabajador/solicitudes')}
+                className="text-white hover:bg-[#26658C]/30"
+              >
                 <Bell className="w-4 h-4 mr-2" />
                 Mis solicitudes
               </Button>

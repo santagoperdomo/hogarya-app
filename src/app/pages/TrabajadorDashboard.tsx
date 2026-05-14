@@ -41,14 +41,13 @@ export default function TrabajadorDashboard() {
     }
 
     setUser(currentUser);
-    loadTrabajadorData(currentUser.id);
-    loadReseñas(currentUser.id);
+    loadTrabajadorData();
     loadSolicitudes();
   }, [navigate]);
 
-  const loadTrabajadorData = async (id: string) => {
+  const loadTrabajadorData = async () => {
     try {
-      const response = await trabajadores.getById(id);
+      const response = await trabajadores.getMyData();
       if (response?.success) {
         setTrabajador(response.trabajador);
         setFormData({
@@ -57,6 +56,7 @@ export default function TrabajadorDashboard() {
           telefono: response.trabajador.telefono || '',
           disponible: response.trabajador.disponible ?? true,
         });
+        loadReseñas(response.trabajador.id);
       }
     } catch (error: any) {
       console.error('Error cargando datos de trabajador:', error);
@@ -78,7 +78,7 @@ export default function TrabajadorDashboard() {
     try {
       const response = await solicitudes.getTrabajador();
       if (response?.success) {
-        setMisSolicitudes(response.solicitudes || []);
+        setMisSolicitudes(response.data || []);
       }
     } catch (error: any) {
       console.error('Error cargando solicitudes:', error);

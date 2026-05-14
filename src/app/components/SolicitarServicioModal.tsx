@@ -24,8 +24,22 @@ export default function SolicitarServicioModal({
   onClose,
   onSuccess
 }: SolicitarServicioModalProps) {
+  const servicioOptions = trabajador.servicios?.length
+    ? trabajador.servicios
+    : [
+        'Plomería',
+        'Electricidad',
+        'Carpintería',
+        'Pintura',
+        'Mudanzas',
+        'Limpieza',
+        'Jardinería',
+        'Reparaciones',
+        'Otro'
+      ];
+
   const [formData, setFormData] = useState({
-    servicio: trabajador.servicios[0] || '',
+    servicio: '',
     descripcion: '',
     fecha_preferida: '',
     direccion: ''
@@ -120,7 +134,10 @@ export default function SolicitarServicioModal({
               style={{ backgroundColor: '#26658C' }}
               required
             >
-              {trabajador.servicios.map((servicio, idx) => (
+              <option value="" disabled>
+                Selecciona un servicio
+              </option>
+              {servicioOptions.map((servicio, idx) => (
                 <option key={idx} value={servicio}>
                   {servicio}
                 </option>
@@ -193,7 +210,7 @@ export default function SolicitarServicioModal({
               type="button"
               onClick={onClose}
               variant="outline"
-              className="border-white/20 text-white"
+              className="border-white/20 "style={{ color: '#A7EBF2' }}
             >
               Cancelar
             </Button>

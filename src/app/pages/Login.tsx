@@ -22,8 +22,15 @@ export default function Login() {
       
       if (response.success) {
         toast.success('¡Bienvenido!');
-        // Redirigir directamente al catálogo
-        navigate('/catalogo');
+
+        const userType = response.user?.tipo;
+        if (userType === 'trabajador') {
+          navigate('/trabajador/dashboard');
+        } else if (userType === 'cliente') {
+          navigate('/cliente/dashboard');
+        } else {
+          navigate('/catalogo');
+        }
       }
     } catch (error: any) {
       console.error('Error en login:', error);
