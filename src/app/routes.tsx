@@ -11,6 +11,7 @@ import Catalogo from "./pages/Catalogo";
 import SolicitarTrabajador from "./pages/SolicitarTrabajador";
 import TrabajadorPerfil from "./pages/TrabajadorPerfil";
 import TrabajadorSolicitudes from "./pages/TrabajadorSolicitudes";
+import TrabajadorChats from "./pages/TrabajadorChats";
 import TrabajadorChat from "./pages/TrabajadorChat";
 import TrabajadorEvidencia from "./pages/TrabajadorEvidencia";
 import TrabajadorOnboarding from "./pages/TrabajadorOnboarding";
@@ -51,6 +52,10 @@ export const router = createBrowserRouter([
   {
     path: "/trabajador/solicitudes",
     Component: TrabajadorSolicitudes,
+  },
+  {
+    path: "/trabajador/chats",
+    Component: TrabajadorChats,
   },
   {
     path: "/trabajador/solicitudes/:id/chat",

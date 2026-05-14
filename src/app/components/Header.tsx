@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router';
-import { Home, LogOut, User as UserIcon, Bell } from 'lucide-react';
+import { Home, LogOut, User as UserIcon, Bell, MessageCircle } from 'lucide-react';
 import { Button } from './ui/button';
 import { auth } from '../utils/api';
 import { toast } from 'sonner';
@@ -76,30 +76,30 @@ export default function Header({ user, onLogout }: HeaderProps) {
             )}
 
             {currentUser?.tipo === 'trabajador' && (
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => navigate('/trabajador/solicitudes')}
-                className="text-white hover:bg-[#26658C]/30"
-              >
-                <Bell className="w-4 h-4 mr-2" />
-                Mis solicitudes
-              </Button>
+              <>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => navigate('/trabajador/solicitudes')}
+                  className="text-white hover:bg-[#26658C]/30"
+                >
+                  <Bell className="w-4 h-4 mr-2" />
+                  Mis solicitudes
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => navigate('/trabajador/chats')}
+                  className="text-white hover:bg-[#26658C]/30"
+                >
+                  <MessageCircle className="w-4 h-4 mr-2" />
+                  Chats
+                </Button>
+              </>
             )}
 
             {currentUser ? (
               <>
-                {currentUser.tipo === 'trabajador' && (
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => navigate('/trabajador/solicitudes')}
-                    className="text-white hover:bg-[#26658C]/30"
-                  >
-                    <Bell className="w-4 h-4 mr-2" />
-                    Solicitudes
-                  </Button>
-                )}
                 <Button
                   variant="ghost"
                   size="sm"

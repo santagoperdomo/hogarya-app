@@ -33,7 +33,7 @@ export default function TrabajadorSolicitudes() {
       setLoading(true);
       const response = await solicitudes.getTrabajador();
       if (response?.success) {
-        setSolicitudesList(response.solicitudes || []);
+        setSolicitudesList(response.data || []);
       } else {
         throw new Error('No se pudieron cargar las solicitudes');
       }
@@ -55,7 +55,11 @@ export default function TrabajadorSolicitudes() {
             ? 'Solicitud aceptada'
             : 'Solicitud rechazada',
         );
-        loadSolicitudes();
+        if (estado === 'aceptada') {
+          navigate(`/trabajador/solicitudes/${id}/chat`);
+        } else {
+          loadSolicitudes();
+        }
       } else {
         throw new Error('No se pudo actualizar la solicitud');
       }
