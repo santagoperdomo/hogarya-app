@@ -3,7 +3,7 @@ import { CheckCircle, Home, Users, Shield, Search, Wrench, Sparkles, ArrowRight,
 import { Button } from '../components/ui/button';
 import { auth } from '../utils/api';
 
-const landingHeroImage = new URL('../../../imagenes/Casco amarillo.jpg', import.meta.url).href;
+const landingHeroImage = new URL('../../../imagenes/Casco amarillo.png', import.meta.url).href;
 
 export default function Landing() {
   const navigate = useNavigate();
