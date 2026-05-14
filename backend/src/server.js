@@ -24,8 +24,10 @@ const __dirname = path.dirname(__filename);
 const publicPath = path.join(__dirname, '..', 'public');
 
 // Cuando la app corre detrás de un proxy (DigitalOcean, Vercel, etc.)
-// necesitamos confiar en el proxy para leer correctamente X-Forwarded-For.
-app.enable('trust proxy');
+// confiar solo en el primer proxy es más seguro que habilitar trust proxy globalmente.
+if (process.env.NODE_ENV === 'production') {
+  app.set('trust proxy', 1);
+}
 
 // Configuración de seguridad
 app.use(helmet()); // Headers de seguridad
