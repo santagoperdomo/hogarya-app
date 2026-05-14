@@ -7,8 +7,6 @@ import { Label } from '../components/ui/label';
 import { auth } from '../utils/api';
 import { toast } from 'sonner';
 
-const loginImage = new URL('../../../imagenes/Taladro1.jpg', import.meta.url).href;
-
 export default function Login() {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
@@ -40,7 +38,7 @@ export default function Login() {
       {/* Lado izquierdo - Branding con imagen */}
       <div className="hidden lg:flex flex-col justify-center p-12 relative overflow-hidden">
         <img
-          src={loginImage}
+          src="/imagenes/Taladro1.jpg"
           alt="Servicio de mantenimiento"
           className="absolute inset-0 h-full w-full object-cover opacity-80 blur-sm"
         />

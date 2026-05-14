@@ -8,8 +8,6 @@ import { RadioGroup, RadioGroupItem } from '../components/ui/radio-group';
 import { auth } from '../utils/api';
 import { toast } from 'sonner';
 
-const signupImage = new URL('../../../imagenes/CortarTubo.jpg', import.meta.url).href;
-
 export default function Signup() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -230,7 +228,7 @@ export default function Signup() {
 
       <div className="hidden lg:flex flex-col justify-center p-12 relative overflow-hidden">
         <img
-          src={signupImage}
+          src="/imagenes/Herramientas.jpg"
           alt="Trabajo doméstico"
           className="absolute inset-0 h-full w-full object-cover opacity-80 blur-sm"
         />

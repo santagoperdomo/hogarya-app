@@ -3,8 +3,6 @@ import { CheckCircle, Home, Users, Shield, Search, Wrench, Sparkles, ArrowRight,
 import { Button } from '../components/ui/button';
 import { auth } from '../utils/api';
 
-const landingHeroImage = new URL('../../../imagenes/Casco amarillo.png', import.meta.url).href;
-
 export default function Landing() {
   const navigate = useNavigate();
 
@@ -208,7 +206,7 @@ export default function Landing() {
             
             <div className="hidden lg:block relative rounded-3xl h-96 shadow-2xl overflow-hidden">
               <img
-                src={landingHeroImage}
+                src="/imagenes/CortarTubo.jpg"
                 alt="Profesionales brindando servicio doméstico"
                 className="absolute inset-0 h-full w-full object-cover"
               />
