@@ -149,11 +149,11 @@ export default function TrabajadorChat() {
               </div>
 
               {solicitud.estado === 'aceptada' && (
-                <div className="flex gap-2">
+                <div className="flex flex-col sm:flex-row gap-2">
                   <Button
                     onClick={handleSubirEvidencia}
                     variant="outline"
-                    className="border-[#023859] text-[#023859]"
+                    className="border-[#023859] text-[#023859] w-full sm:w-auto"
                   >
                     <Upload className="w-4 h-4 mr-2" />
                     Subir evidencia

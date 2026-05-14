@@ -124,7 +124,7 @@ export default function TrabajadorPerfil() {
     <div className="min-h-screen" style={{ backgroundColor: '#F8F9FA' }}>
       <Header user={user} />
 
-      <div className="max-w-6xl mx-auto px-4 py-8">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8">
         {/* Botón volver */}
         <Button
           variant="ghost"
@@ -143,7 +143,7 @@ export default function TrabajadorPerfil() {
             <Card style={{ backgroundColor: 'white', border: 'none' }} className="shadow-lg">
               <CardContent className="p-8">
                 {/* Header del perfil */}
-                <div className="flex items-start justify-between mb-6">
+                <div className="flex flex-col lg:flex-row items-start justify-between mb-6 gap-6">
                   <div className="flex items-center gap-4">
                     <div
                       className="w-20 h-20 rounded-full flex items-center justify-center text-3xl font-bold text-white"
@@ -204,10 +204,10 @@ export default function TrabajadorPerfil() {
                 )}
 
                 {/* Botones de acción */}
-                <div className="flex gap-3 pt-4 border-t">
+                <div className="flex flex-col sm:flex-row gap-3 pt-4 border-t">
                   <Button
                     onClick={() => setShowModal(true)}
-                    className="flex-1 font-semibold"
+                    className="w-full sm:flex-1 font-semibold"
                     size="lg"
                     style={{ backgroundColor: '#54ACBF', color: 'white' }}
                     disabled={!user || !trabajador.disponible}

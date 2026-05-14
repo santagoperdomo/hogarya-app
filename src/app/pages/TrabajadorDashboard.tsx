@@ -310,17 +310,18 @@ export default function TrabajadorDashboard() {
                           </Badge>
                         ))}
                       </div>
-                      <div className="flex gap-2">
+                      <div className="flex flex-col sm:flex-row gap-2">
                         <Input
                           value={nuevoServicio}
                           onChange={(e) => setNuevoServicio(e.target.value)}
                           onKeyPress={(e) => e.key === 'Enter' && handleAddServicio()}
                           placeholder="Ej: Plomería"
-                          className="bg-white/10 border-white/20 text-white"
+                          className="bg-white/10 border-white/20 text-white w-full"
                         />
                         <Button
                           onClick={handleAddServicio}
                           type="button"
+                          className="w-full sm:w-auto"
                           style={{ backgroundColor: '#54ACBF', color: 'white' }}
                         >
                           <Plus className="w-4 h-4" />
@@ -384,7 +385,7 @@ export default function TrabajadorDashboard() {
                 </div>
 
                 {editing && (
-                  <div className="flex gap-2 pt-4">
+                  <div className="flex flex-col sm:flex-row gap-2 pt-4">
                     <Button
                       onClick={handleSaveProfile}
                       disabled={loading}

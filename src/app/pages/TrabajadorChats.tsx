@@ -58,7 +58,7 @@ export default function TrabajadorChats() {
       <Header user={user} />
 
       <div className="max-w-6xl mx-auto px-4 py-8">
-        <div className="flex items-center justify-between mb-8 gap-4">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-8 gap-4">
           <div>
             <p className="text-sm font-semibold text-[#54ACBF] flex items-center gap-2">
               <Bell className="w-5 h-5" /> Chats

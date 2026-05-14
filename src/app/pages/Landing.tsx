@@ -69,22 +69,21 @@ export default function Landing() {
   return (
     <div className="min-h-screen" style={{ backgroundColor: '#FFFFFF' }}>
       {/* Header */}
-      <header   className="sticky top-0 z-50 border-b"
-  style={{ backgroundColor: '#011C40', borderColor: '#26658C' }}>
+      <header className="sticky top-0 z-50 border-b" style={{ backgroundColor: '#011C40', borderColor: '#26658C' }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex justify-between items-center">
+          <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <div className="flex items-center space-x-2">
               <Home className="w-7 h-7" style={{ color: '#A7EBF2' }} />
               <span className="text-2xl font-bold text-white">HogarYa</span>
             </div>
             
-            <nav className="hidden md:flex items-center space-x-6">
+            <nav className="flex flex-wrap items-center justify-center gap-3">
               <a href="#servicios" className="text-white/80 hover:text-white transition-colors">Servicios</a>
               <a href="#como-funciona" className="text-white/80 hover:text-white transition-colors">Cómo funciona</a>
               <a href="#profesionales" className="text-white/80 hover:text-white transition-colors">Profesionales</a>
             </nav>
             
-            <div className="flex items-center space-x-3">
+            <div className="flex flex-wrap items-center justify-center gap-3">
               {currentUser ? (
                 <>
                   <Button
@@ -157,7 +156,7 @@ export default function Landing() {
                 Reparaciones, mudanzas, armado de muebles y más. Profesionales verificados listos para ayudarte hoy.
               </p>
               
-              <div className="grid grid-cols-3 gap-6 mb-10">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-10">
                 <div>
                   <div className="text-3xl font-bold text-white">0</div>
                   <div className="text-sm" style={{ color: '#A7EBF2' }}>profesionales activos</div>

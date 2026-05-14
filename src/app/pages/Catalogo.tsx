@@ -134,7 +134,7 @@ export default function Catalogo() {
 
           {/* Barra de búsqueda */}
           <div className="max-w-3xl mx-auto">
-            <div className="flex gap-3 bg-white rounded-2xl shadow-lg p-3">
+            <div className="flex flex-col sm:flex-row gap-3 bg-white rounded-2xl shadow-lg p-3">
               <div className="flex-1 flex items-center px-4 bg-gray-50 rounded-xl">
                 <Search className="w-5 h-5 text-gray-400 mr-3" />
                 <Input
@@ -149,7 +149,7 @@ export default function Catalogo() {
               <Button
                 onClick={handleSearch}
                 size="lg"
-                className="px-8 font-semibold rounded-xl"
+                className="w-full sm:w-auto px-8 font-semibold rounded-xl"
                 style={{ backgroundColor: '#54ACBF', color: 'white' }}
               >
                 Buscar

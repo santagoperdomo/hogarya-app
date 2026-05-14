@@ -179,11 +179,11 @@ export default function TrabajadorOnboarding() {
                 </div>
               </div>
 
-              <div className="flex gap-4 justify-center mt-12">
+              <div className="flex flex-col sm:flex-row gap-4 justify-center mt-12">
                 <Button
                   onClick={handleContinue}
                   size="lg"
-                  className="px-8 font-semibold rounded-xl"
+                  className="w-full sm:w-auto px-8 font-semibold rounded-xl"
                   style={{ backgroundColor: '#54ACBF', color: 'white' }}
                 >
                   Comenzar configuración
@@ -192,7 +192,7 @@ export default function TrabajadorOnboarding() {
                   onClick={handleSkip}
                   variant="outline"
                   size="lg"
-                  className="px-8 font-semibold rounded-xl"
+                  className="w-full sm:w-auto px-8 font-semibold rounded-xl"
                   style={{ borderColor: '#54ACBF', color: '#54ACBF' }}
                 >
                   Omitir por ahora
@@ -241,12 +241,12 @@ export default function TrabajadorOnboarding() {
                 </p>
               </div>
 
-              <div className="flex gap-4">
+              <div className="flex flex-col sm:flex-row gap-4">
                 <Button
                   onClick={() => setStep(1)}
                   variant="outline"
                   size="lg"
-                  className="px-8 font-semibold rounded-xl"
+                  className="w-full sm:w-auto px-8 font-semibold rounded-xl"
                   style={{ borderColor: '#54ACBF', color: '#54ACBF' }}
                 >
                   Atrás
@@ -312,12 +312,12 @@ export default function TrabajadorOnboarding() {
                 </div>
               </div>
 
-              <div className="flex gap-4">
+              <div className="flex flex-col sm:flex-row gap-4">
                 <Button
                   onClick={() => setStep(2)}
                   variant="outline"
                   size="lg"
-                  className="px-8 font-semibold rounded-xl"
+                  className="w-full sm:w-auto px-8 font-semibold rounded-xl"
                   style={{ borderColor: '#54ACBF', color: '#54ACBF' }}
                   disabled={loading}
                 >

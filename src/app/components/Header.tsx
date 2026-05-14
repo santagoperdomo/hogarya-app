@@ -36,7 +36,7 @@ export default function Header({ user, onLogout }: HeaderProps) {
   return (
     <header className="bg-[#023859] border-b border-[#26658C]/20">
       <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex flex-wrap items-center justify-between gap-2 py-3">
           {/* Logo */}
           <button
             onClick={() => navigate('/')}
@@ -54,12 +54,12 @@ export default function Header({ user, onLogout }: HeaderProps) {
           </button>
 
           {/* Navegación */}
-          <nav className="flex items-center gap-4">
+          <nav className="flex w-full flex-col items-center justify-center gap-2 md:flex-row md:justify-end md:items-center md:w-auto">
             <Button
               variant="ghost"
               size="sm"
               onClick={() => navigate('/catalogo')}
-              className="text-white hover:bg-[#26658C]/30"
+              className="text-white hover:bg-[#26658C]/30 w-full sm:w-auto"
             >
               Catálogo
             </Button>
@@ -81,7 +81,7 @@ export default function Header({ user, onLogout }: HeaderProps) {
                   variant="ghost"
                   size="sm"
                   onClick={() => navigate('/trabajador/solicitudes')}
-                  className="text-white hover:bg-[#26658C]/30"
+                  className="text-white hover:bg-[#26658C]/30 w-full sm:w-auto"
                 >
                   <Bell className="w-4 h-4 mr-2" />
                   Mis solicitudes
@@ -90,7 +90,7 @@ export default function Header({ user, onLogout }: HeaderProps) {
                   variant="ghost"
                   size="sm"
                   onClick={() => navigate('/trabajador/chats')}
-                  className="text-white hover:bg-[#26658C]/30"
+                  className="text-white hover:bg-[#26658C]/30 w-full sm:w-auto"
                 >
                   <MessageCircle className="w-4 h-4 mr-2" />
                   Chats
@@ -104,7 +104,7 @@ export default function Header({ user, onLogout }: HeaderProps) {
                   variant="ghost"
                   size="sm"
                   onClick={handleDashboard}
-                  className="text-white hover:bg-[#26658C]/30"
+                  className="text-white hover:bg-[#26658C]/30 w-full sm:w-auto"
                 >
                   <UserIcon className="w-4 h-4 mr-2" />
                   {currentUser.nombre}
@@ -113,7 +113,7 @@ export default function Header({ user, onLogout }: HeaderProps) {
                   variant="ghost"
                   size="sm"
                   onClick={handleLogout}
-                  className="text-white hover:bg-red-500/20"
+                  className="text-white hover:bg-red-500/20 w-full sm:w-auto"
                 >
                   <LogOut className="w-4 h-4 mr-2" />
                   Salir

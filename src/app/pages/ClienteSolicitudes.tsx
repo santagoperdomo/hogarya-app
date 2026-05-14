@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
+import Header from '../components/Header';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
 import { Button } from '../components/ui/button';
 import { Badge } from '../components/ui/badge';
 import { MessageCircle, CheckCircle, XCircle, Clock, Star } from 'lucide-react';
-import { solicitudes } from '../utils/api';
-import { auth } from '../utils/api';
+import { solicitudes, auth } from '../utils/api';
 import { toast } from 'sonner';
 
 interface Solicitud {
@@ -27,13 +27,24 @@ interface Solicitud {
 }
 
 export default function ClienteSolicitudes() {
+  const [user, setUser] = useState<any>(null);
   const [solicitudesList, setSolicitudesList] = useState<Solicitud[]>([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
+    const currentUser = auth.getCurrentUser();
+    if (!currentUser) {
+      navigate('/login');
+      return;
+    }
+    if (currentUser.tipo !== 'cliente') {
+      navigate('/trabajador/dashboard');
+      return;
+    }
+    setUser(currentUser);
     loadSolicitudes();
-  }, []);
+  }, [navigate]);
 
   const loadSolicitudes = async () => {
     try {
@@ -113,6 +124,7 @@ export default function ClienteSolicitudes() {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      <Header user={user} />
       <div className="container mx-auto px-4 py-8">
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-[#023859] mb-2">Mis Solicitudes</h1>
@@ -175,7 +187,7 @@ export default function ClienteSolicitudes() {
                     </div>
                   </div>
 
-                  <div className="flex gap-2">
+                  <div className="flex flex-col sm:flex-row gap-2">
                     {solicitud.estado === 'aceptada' && (
                       <>
                         <Button

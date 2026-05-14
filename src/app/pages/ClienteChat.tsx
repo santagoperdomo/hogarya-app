@@ -122,7 +122,7 @@ export default function ClienteChat() {
 
           <Card>
             <CardHeader>
-              <div className="flex items-start justify-between">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                 <div>
                   <CardTitle className="text-xl text-[#023859]">{solicitud.servicio}</CardTitle>
                   <p className="text-gray-600 mt-1">{solicitud.descripcion}</p>
@@ -158,10 +158,10 @@ export default function ClienteChat() {
               </div>
 
               {solicitud.estado === 'aceptada' && (
-                <div className="flex gap-2">
+                <div className="flex flex-col sm:flex-row gap-2">
                   <Button
                     onClick={handleCompletar}
-                    className="bg-green-600 hover:bg-green-700"
+                    className="w-full sm:w-auto bg-green-600 hover:bg-green-700"
                   >
                     <CheckCircle className="w-4 h-4 mr-2" />
                     Marcar como completada
@@ -172,7 +172,7 @@ export default function ClienteChat() {
               {solicitud.estado === 'completada' && !solicitud.calificacion && (
                 <Button
                   onClick={handleCalificar}
-                  className="bg-[#023859] hover:bg-[#26658C]"
+                  className="w-full sm:w-auto bg-[#023859] hover:bg-[#26658C]"
                 >
                   <Star className="w-4 h-4 mr-2" />
                   Calificar servicio

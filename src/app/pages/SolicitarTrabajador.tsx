@@ -140,7 +140,7 @@ export default function SolicitarTrabajador() {
       {/* Header */}
       <header className="border-b shadow-sm" style={{ backgroundColor: '#011C40', borderColor: '#26658C' }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex justify-between items-center">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <div
               className="flex items-center space-x-2 cursor-pointer"
               onClick={() => navigate('/')}
@@ -221,7 +221,7 @@ export default function SolicitarTrabajador() {
             </div>
 
             {/* Estadísticas */}
-            <div className="grid grid-cols-3 gap-6 mt-10">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-10">
               <div>
                 <div className="text-3xl font-bold text-white">18,000+</div>
                 <div className="text-sm" style={{ color: '#A7EBF2' }}>servicios realizados</div>

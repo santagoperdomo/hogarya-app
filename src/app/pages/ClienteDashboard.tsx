@@ -5,6 +5,7 @@ import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { Label } from '../components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card';
+import Header from '../components/Header';
 import { auth, perfil } from '../utils/api';
 import { toast } from 'sonner';
 
@@ -71,31 +72,7 @@ export default function ClienteDashboard() {
 
   return (
     <div className="min-h-screen" style={{ backgroundColor: '#011C40' }}>
-      {/* Header */}
-      <header className="border-b border-white/10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex justify-between items-center">
-            <div
-              className="flex items-center space-x-2 cursor-pointer"
-              onClick={() => navigate('/')}
-            >
-              <Home className="w-8 h-8" style={{ color: '#A7EBF2' }} />
-              <span className="text-2xl font-bold text-white">HogarYa</span>
-            </div>
-
-            <div className="flex items-center space-x-4">
-              <Button
-                variant="ghost"
-                onClick={handleLogout}
-                className="text-white hover:bg-white/10"
-              >
-                <LogOut className="w-4 h-4 mr-2" />
-                Salir
-              </Button>
-            </div>
-          </div>
-        </div>
-      </header>
+      <Header user={user} onLogout={handleLogout} />
 
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Bienvenida */}
@@ -184,7 +161,7 @@ export default function ClienteDashboard() {
                 </div>
 
                 {editing && (
-                  <div className="flex gap-2 pt-4">
+                  <div className="flex flex-col sm:flex-row gap-2 pt-4">
                     <Button
                       onClick={handleSaveProfile}
                       disabled={loading}

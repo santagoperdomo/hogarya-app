@@ -224,11 +224,11 @@ export default function TrabajadorEvidencia() {
               </div>
 
               {/* Botones */}
-              <div className="flex gap-3 pt-4">
+              <div className="flex flex-col sm:flex-row gap-3 pt-4">
                 <Button
                   onClick={() => navigate('/trabajador/solicitudes')}
                   variant="outline"
-                  className="flex-1"
+                  className="w-full sm:flex-1"
                 >
                   Cancelar
                 </Button>

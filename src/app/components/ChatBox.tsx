@@ -89,8 +89,8 @@ export default function ChatBox({ solicitudId, onBack, currentUserTipo }: ChatBo
   }
 
   return (
-    <Card className="h-[600px] flex flex-col">
-      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+    <Card className="flex flex-col h-full min-h-[500px] max-h-[80vh]">
+      <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between space-y-2 sm:space-y-0 pb-2">
         <div className="flex items-center gap-2">
           {onBack && (
             <Button
@@ -124,7 +124,7 @@ export default function ChatBox({ solicitudId, onBack, currentUserTipo }: ChatBo
                   className={`flex ${mensaje.remitente === currentUserTipo ? 'justify-end' : 'justify-start'}`}
                 >
                   <div
-                    className={`max-w-[70%] rounded-lg px-3 py-2 ${
+                    className={`max-w-[85%] md:max-w-[70%] rounded-lg px-3 py-2 ${
                       mensaje.remitente === currentUserTipo
                         ? 'bg-[#023859] text-white'
                         : 'bg-gray-100 text-gray-900'
@@ -145,18 +145,18 @@ export default function ChatBox({ solicitudId, onBack, currentUserTipo }: ChatBo
         </ScrollArea>
 
         <div className="border-t p-4">
-          <form onSubmit={handleEnviarMensaje} className="flex gap-2">
+          <form onSubmit={handleEnviarMensaje} className="flex flex-col sm:flex-row gap-2">
             <Input
               value={nuevoMensaje}
               onChange={(e) => setNuevoMensaje(e.target.value)}
               placeholder="Escribe tu mensaje..."
-              className="flex-1"
+              className="flex-1 min-w-0"
               disabled={enviando}
             />
             <Button
               type="submit"
               disabled={!nuevoMensaje.trim() || enviando}
-              className="bg-[#023859] hover:bg-[#26658C]"
+              className="bg-[#023859] hover:bg-[#26658C] w-full sm:w-auto"
             >
               {enviando ? (
                 <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>

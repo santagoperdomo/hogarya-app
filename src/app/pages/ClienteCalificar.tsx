@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router';
+import Header from '../components/Header';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
 import { Button } from '../components/ui/button';
 import { Textarea } from '../components/ui/textarea';
 import { Star, ArrowLeft, Upload } from 'lucide-react';
-import { solicitudes } from '../utils/api';
+import { solicitudes, auth } from '../utils/api';
 import { toast } from 'sonner';
 
 interface Solicitud {
@@ -20,6 +21,7 @@ interface Solicitud {
 export default function ClienteCalificar() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const [user, setUser] = useState<any>(null);
   const [solicitud, setSolicitud] = useState<Solicitud | null>(null);
   const [calificacion, setCalificacion] = useState(0);
   const [hoverCalificacion, setHoverCalificacion] = useState(0);
@@ -29,10 +31,16 @@ export default function ClienteCalificar() {
   const [enviando, setEnviando] = useState(false);
 
   useEffect(() => {
+    const currentUser = auth.getCurrentUser();
+    if (!currentUser) {
+      navigate('/login');
+      return;
+    }
+    setUser(currentUser);
     if (id) {
       loadSolicitud();
     }
-  }, [id]);
+  }, [id, navigate]);
 
   const loadSolicitud = async () => {
     try {
@@ -120,6 +128,7 @@ export default function ClienteCalificar() {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      <Header user={user} />
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-2xl mx-auto">
           <Button
@@ -218,7 +227,7 @@ export default function ClienteCalificar() {
                   </div>
 
                   {imagenes.length > 0 && (
-                    <div className="grid grid-cols-3 gap-2">
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                       {imagenes.map((imagen, index) => (
                         <div key={index} className="relative">
                           <img
@@ -241,7 +250,7 @@ export default function ClienteCalificar() {
               </div>
 
               {/* Botones */}
-              <div className="flex gap-3 pt-4">
+              <div className="flex flex-col sm:flex-row gap-3 pt-4">
                 <Button
                   onClick={() => navigate('/cliente/solicitudes')}
                   variant="outline"
