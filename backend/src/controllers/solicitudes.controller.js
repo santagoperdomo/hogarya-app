@@ -8,7 +8,15 @@ import path from 'path';
 const isTrabajadorAsignado = async (solicitud, userId) => {
   if (!userId || !solicitud || !solicitud.trabajador_id) return false;
   const trabajador = await Trabajador.findOne({ user_id: userId });
-  return trabajador && solicitud.trabajador_id.toString() === trabajador._id.toString();
+  if (!trabajador) return false;
+
+  const solicitudTrabajadorId = typeof solicitud.trabajador_id === 'string'
+    ? solicitud.trabajador_id
+    : solicitud.trabajador_id._id
+      ? solicitud.trabajador_id._id.toString()
+      : solicitud.trabajador_id.toString();
+
+  return trabajador._id.toString() === solicitudTrabajadorId;
 };
 
 // Configuración de multer para subir archivos
