@@ -4,6 +4,13 @@ import Usuario from '../models/Usuario.js';
 import multer from 'multer';
 import path from 'path';
 
+// Helper para saber si el usuario actual es el trabajador asignado a la solicitud
+const isTrabajadorAsignado = async (solicitud, userId) => {
+  if (!userId || !solicitud || !solicitud.trabajador_id) return false;
+  const trabajador = await Trabajador.findOne({ user_id: userId });
+  return trabajador && solicitud.trabajador_id.toString() === trabajador._id.toString();
+};
+
 // Configuración de multer para subir archivos
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -280,8 +287,8 @@ export const getSolicitudById = async (req, res) => {
     }
 
     // Verificar que el usuario sea cliente o trabajador de la solicitud
-    if (solicitud.cliente_id._id.toString() !== req.user.id &&
-        solicitud.trabajador_id._id.toString() !== req.user.id) {
+    const trabajadorAsignado = await isTrabajadorAsignado(solicitud, req.user.id);
+    if (solicitud.cliente_id._id.toString() !== req.user.id && !trabajadorAsignado) {
       res.status(403).json({
         success: false,
         message: 'No tienes permiso para ver esta solicitud'
@@ -332,8 +339,8 @@ export const enviarMensajeChat = async (req, res) => {
     }
 
     // Verificar que el usuario sea cliente o trabajador de la solicitud
-    if (solicitud.cliente_id.toString() !== req.user.id &&
-        solicitud.trabajador_id.toString() !== req.user.id) {
+    const trabajadorAsignado = await isTrabajadorAsignado(solicitud, req.user.id);
+    if (solicitud.cliente_id.toString() !== req.user.id && !trabajadorAsignado) {
       res.status(403).json({
         success: false,
         message: 'No tienes permiso para enviar mensajes en esta solicitud'
@@ -386,8 +393,8 @@ export const getMensajesChat = async (req, res) => {
     }
 
     // Verificar que el usuario sea cliente o trabajador de la solicitud
-    if (solicitud.cliente_id.toString() !== req.user.id &&
-        solicitud.trabajador_id.toString() !== req.user.id) {
+    const trabajadorAsignado = await isTrabajadorAsignado(solicitud, req.user.id);
+    if (solicitud.cliente_id.toString() !== req.user.id && !trabajadorAsignado) {
       res.status(403).json({
         success: false,
         message: 'No tienes permiso para ver los mensajes de esta solicitud'
@@ -430,8 +437,8 @@ export const completarSolicitud = async (req, res) => {
     }
 
     // Verificar que el usuario sea cliente o trabajador de la solicitud
-    if (solicitud.cliente_id.toString() !== req.user.id &&
-        solicitud.trabajador_id.toString() !== req.user.id) {
+    const trabajadorAsignado = await isTrabajadorAsignado(solicitud, req.user.id);
+    if (solicitud.cliente_id.toString() !== req.user.id && !trabajadorAsignado) {
       res.status(403).json({
         success: false,
         message: 'No tienes permiso para completar esta solicitud'
@@ -451,8 +458,8 @@ export const completarSolicitud = async (req, res) => {
     solicitud.estado = 'completada';
     solicitud.fecha_completado = new Date();
 
-    // Si es trabajador, puede agregar evidencias
-    if (solicitud.trabajador_id.toString() === req.user.id && evidencias) {
+    // Si es trabajador asignado, puede agregar evidencias
+    if (trabajadorAsignado && evidencias) {
       solicitud.evidencias_trabajador = evidencias;
     }
 
@@ -491,8 +498,9 @@ export const subirEvidencia = async (req, res) => {
       return;
     }
 
-    // Solo el trabajador puede subir evidencias
-    if (solicitud.trabajador_id.toString() !== req.user.id) {
+    // Solo el trabajador asignado puede subir evidencias
+    const trabajadorAsignado = await isTrabajadorAsignado(solicitud, req.user.id);
+    if (!trabajadorAsignado) {
       res.status(403).json({
         success: false,
         message: 'Solo el trabajador puede subir evidencias'

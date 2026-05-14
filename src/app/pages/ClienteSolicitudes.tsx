@@ -9,7 +9,8 @@ import { auth } from '../utils/api';
 import { toast } from 'sonner';
 
 interface Solicitud {
-  _id: string;
+  id?: string;
+  _id?: string;
   servicio: string;
   descripcion: string;
   estado: 'pendiente' | 'aceptada' | 'rechazada' | 'completada' | 'cancelada';
@@ -132,7 +133,7 @@ export default function ClienteSolicitudes() {
         ) : (
           <div className="grid gap-6">
             {solicitudesList.map((solicitud) => (
-              <Card key={solicitud._id} className="hover:shadow-lg transition-shadow">
+              <Card key={solicitud.id || solicitud._id} className="hover:shadow-lg transition-shadow">
                 <CardHeader>
                   <div className="flex items-start justify-between">
                     <div>
@@ -178,7 +179,7 @@ export default function ClienteSolicitudes() {
                     {solicitud.estado === 'aceptada' && (
                       <>
                         <Button
-                          onClick={() => handleChat(solicitud._id)}
+                          onClick={() => handleChat(solicitud.id || solicitud._id)}
                           variant="outline"
                           className="flex items-center gap-2"
                         >
@@ -186,7 +187,7 @@ export default function ClienteSolicitudes() {
                           Chat ({solicitud.mensajes_chat?.length || 0})
                         </Button>
                         <Button
-                          onClick={() => handleCompletar(solicitud._id)}
+                          onClick={() => handleCompletar(solicitud.id || solicitud._id)}
                           className="bg-green-600 hover:bg-green-700"
                         >
                           Marcar como completada
@@ -196,7 +197,7 @@ export default function ClienteSolicitudes() {
 
                     {solicitud.estado === 'completada' && !solicitud.calificacion && (
                       <Button
-                        onClick={() => handleCalificar(solicitud._id)}
+                        onClick={() => handleCalificar(solicitud.id || solicitud._id)}
                         className="bg-[#023859] hover:bg-[#26658C]"
                       >
                         Calificar servicio
