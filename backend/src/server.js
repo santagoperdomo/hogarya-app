@@ -70,6 +70,34 @@ app.use('/api/reseñas', reseñasRoutes);
 app.use('/api/perfil', perfilRoutes);
 app.use('/api/solicitudes', solicitudesRoutes);
 
+// Health check endpoint
+app.get('/api/health', async (req, res) => {
+  try {
+    // Verificar conexión a MongoDB
+    const mongoStatus = mongoose.connection.readyState === 1 ? 'connected' : 'disconnected';
+
+    res.json({
+      status: 'ok',
+      timestamp: new Date().toISOString(),
+      environment: process.env.NODE_ENV || 'development',
+      database: {
+        status: mongoStatus,
+        name: mongoose.connection.name || 'unknown'
+      },
+      server: {
+        port: PORT,
+        uptime: process.uptime()
+      }
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: 'error',
+      timestamp: new Date().toISOString(),
+      error: error.message
+    });
+  }
+});
+
 app.get('*', (req, res, next) => {
   if (req.originalUrl.startsWith('/api')) {
     return next();
@@ -81,6 +109,16 @@ app.use(errorHandler);
 
 const startServer = async () => {
   try {
+    console.log('🚀 Iniciando servidor HogarYa...');
+    console.log('📋 Variables de entorno detectadas:');
+    console.log('  - NODE_ENV:', process.env.NODE_ENV || 'no definido');
+    console.log('  - PORT:', process.env.PORT || '5000 (default)');
+    console.log('  - MONGODB_URI:', process.env.MONGODB_URI ? 'definida' : 'no definida');
+    console.log('  - MONGO_URI:', process.env.MONGO_URI ? 'definida' : 'no definida');
+    console.log('  - DATABASE_URL:', process.env.DATABASE_URL ? 'definida' : 'no definida');
+    console.log('  - JWT_SECRET:', process.env.JWT_SECRET ? 'definida' : 'no definida');
+    console.log('  - FRONTEND_URL:', process.env.FRONTEND_URL || 'no definida');
+
     await connectDB();
 
     app.listen(PORT, () => {
@@ -89,7 +127,7 @@ const startServer = async () => {
       console.log(`🌐 Ambiente: ${process.env.NODE_ENV || 'development'}`);
     });
   } catch (error) {
-    console.error('Error al iniciar el servidor:', error);
+    console.error('❌ Error al iniciar el servidor:', error);
     process.exit(1);
   }
 };
