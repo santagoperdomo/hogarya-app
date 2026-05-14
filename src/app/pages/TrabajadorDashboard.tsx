@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
+import Header from '../components/Header';
 import { Home, LogOut, Edit, Star, CheckCircle, XCircle, Plus, Trash2, Clock } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
@@ -140,32 +141,7 @@ export default function TrabajadorDashboard() {
 
   return (
     <div className="min-h-screen" style={{ backgroundColor: '#011C40' }}>
-      {/* Header */}
-      <header className="border-b border-white/10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex justify-between items-center">
-            <div
-              className="flex items-center space-x-2 cursor-pointer"
-              onClick={() => navigate('/')}
-            >
-              <Home className="w-8 h-8" style={{ color: '#A7EBF2' }} />
-              <span className="text-2xl font-bold text-white">HogarYa</span>
-            </div>
-
-            <div className="flex items-center space-x-4">
-              <Button
-                variant="ghost"
-                onClick={handleLogout}
-                className="text-white hover:bg-white/10"
-              >
-                <LogOut className="w-4 h-4 mr-2" />
-                Salir
-              </Button>
-            </div>
-          </div>
-        </div>
-      </header>
-
+      <Header user={user} />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Bienvenida y estadísticas */}
         <div className="mb-8">

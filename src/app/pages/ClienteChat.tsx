@@ -1,6 +1,7 @@
 import { useParams, useNavigate } from 'react-router';
 import { useState, useEffect } from 'react';
 import ChatBox from '../components/ChatBox';
+import Header from '../components/Header';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
 import { Button } from '../components/ui/button';
 import { Badge } from '../components/ui/badge';
@@ -26,14 +27,26 @@ interface Solicitud {
 export default function ClienteChat() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const [user, setUser] = useState<any>(null);
   const [solicitud, setSolicitud] = useState<Solicitud | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const currentUser = auth.getCurrentUser();
+    if (!currentUser) {
+      navigate('/login');
+      return;
+    }
+    if (currentUser.tipo !== 'cliente') {
+      navigate('/trabajador/dashboard');
+      return;
+    }
+    setUser(currentUser);
+
     if (id) {
       loadSolicitud();
     }
-  }, [id]);
+  }, [id, navigate]);
 
   const loadSolicitud = async () => {
     try {
@@ -79,7 +92,8 @@ export default function ClienteChat() {
 
   if (!solicitud) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center">
+        <Header user={user} />
         <div className="text-center">
           <p className="text-gray-600">Solicitud no encontrada</p>
           <Button onClick={() => navigate('/cliente/solicitudes')} className="mt-4">
@@ -94,6 +108,7 @@ export default function ClienteChat() {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      <Header user={user} />
       <div className="container mx-auto px-4 py-8">
         <div className="mb-6">
           <Button

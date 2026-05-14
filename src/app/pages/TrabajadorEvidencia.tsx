@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router';
+import Header from '../components/Header';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
 import { Button } from '../components/ui/button';
 import { Textarea } from '../components/ui/textarea';
 import { Upload, ArrowLeft, X } from 'lucide-react';
-import { solicitudes } from '../utils/api';
+import { solicitudes, auth } from '../utils/api';
 import { toast } from 'sonner';
 
 interface Solicitud {
@@ -19,6 +20,7 @@ interface Solicitud {
 export default function TrabajadorEvidencia() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const [user, setUser] = useState<any>(null);
   const [solicitud, setSolicitud] = useState<Solicitud | null>(null);
   const [descripcion, setDescripcion] = useState('');
   const [imagenes, setImagenes] = useState<File[]>([]);
@@ -26,10 +28,21 @@ export default function TrabajadorEvidencia() {
   const [enviando, setEnviando] = useState(false);
 
   useEffect(() => {
+    const currentUser = auth.getCurrentUser();
+    if (!currentUser) {
+      navigate('/login');
+      return;
+    }
+    if (currentUser.tipo !== 'trabajador') {
+      navigate('/cliente/dashboard');
+      return;
+    }
+    setUser(currentUser);
+
     if (id) {
       loadSolicitud();
     }
-  }, [id]);
+  }, [id, navigate]);
 
   const loadSolicitud = async () => {
     try {
@@ -105,7 +118,8 @@ export default function TrabajadorEvidencia() {
 
   if (!solicitud) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center">
+        <Header user={user} />
         <div className="text-center">
           <p className="text-gray-600">Solicitud no encontrada</p>
           <Button onClick={() => navigate('/trabajador/solicitudes')} className="mt-4">
@@ -118,6 +132,7 @@ export default function TrabajadorEvidencia() {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      <Header user={user} />
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-2xl mx-auto">
           <Button
