@@ -5,6 +5,7 @@ import { Input } from './ui/input';
 import { Label } from './ui/label';
 import { Textarea } from './ui/textarea';
 import { toast } from 'sonner';
+import { API_URL } from '../utils/api';
 
 interface SolicitarServicioModalProps {
   trabajador: {
@@ -47,7 +48,7 @@ export default function SolicitarServicioModal({
         return;
       }
 
-      const response = await fetch('http://localhost:5000/api/solicitudes', {
+      const response = await fetch(`${API_URL}/solicitudes`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

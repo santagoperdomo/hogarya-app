@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import { ArrowLeft, Star, Phone, MessageCircle, MapPin, Briefcase, CheckCircle } from 'lucide-react';
 import { Button } from '../components/ui/button';
+import { API_URL } from '../utils/api';
 import { Badge } from '../components/ui/badge';
 import { Card, CardContent } from '../components/ui/card';
 import Header from '../components/Header';
@@ -48,7 +49,7 @@ export default function TrabajadorPerfil() {
       setLoading(true);
 
       // Obtener trabajador
-      const response = await fetch(`http://localhost:5000/api/trabajadores/${id}`);
+      const response = await fetch(`${API_URL}/trabajadores/${id}`);
       const data = await response.json();
 
       if (data.success) {
@@ -57,7 +58,7 @@ export default function TrabajadorPerfil() {
         setTrabajador(trabajadorData);
 
         // Obtener reseñas
-        const reseñasResponse = await fetch(`http://localhost:5000/api/reseñas/${id}`);
+        const reseñasResponse = await fetch(`${API_URL}/reseñas/${id}`);
         const reseñasData = await reseñasResponse.json();
 
         if (reseñasData.success) {
