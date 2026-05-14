@@ -1,6 +1,21 @@
 import Solicitud from '../models/Solicitud.js';
 import Trabajador from '../models/Trabajador.js';
 import Usuario from '../models/Usuario.js';
+import multer from 'multer';
+import path from 'path';
+
+// Configuración de multer para subir archivos
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/');
+  },
+  filename: (req, file, cb) => {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname));
+  }
+});
+
+const upload = multer({ storage: storage });
 
 export const createSolicitud = async (req, res) => {
   try {
@@ -239,3 +254,276 @@ export const calificarSolicitud = async (req, res) => {
     });
   }
 };
+
+export const getSolicitudById = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    if (!req.user) {
+      res.status(401).json({
+        success: false,
+        message: 'No autorizado'
+      });
+      return;
+    }
+
+    const solicitud = await Solicitud.findById(id)
+      .populate('cliente_id', 'nombre email')
+      .populate('trabajador_id', 'nombre especialidad calificacion');
+
+    if (!solicitud) {
+      res.status(404).json({
+        success: false,
+        message: 'Solicitud no encontrada'
+      });
+      return;
+    }
+
+    // Verificar que el usuario sea cliente o trabajador de la solicitud
+    if (solicitud.cliente_id._id.toString() !== req.user.id &&
+        solicitud.trabajador_id._id.toString() !== req.user.id) {
+      res.status(403).json({
+        success: false,
+        message: 'No tienes permiso para ver esta solicitud'
+      });
+      return;
+    }
+
+    res.json({
+      success: true,
+      data: solicitud
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message || 'Error al obtener solicitud'
+    });
+  }
+};
+
+export const enviarMensajeChat = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { mensaje } = req.body;
+
+    if (!mensaje || mensaje.trim() === '') {
+      res.status(400).json({
+        success: false,
+        message: 'El mensaje es requerido'
+      });
+      return;
+    }
+
+    if (!req.user) {
+      res.status(401).json({
+        success: false,
+        message: 'No autorizado'
+      });
+      return;
+    }
+
+    const solicitud = await Solicitud.findById(id);
+    if (!solicitud) {
+      res.status(404).json({
+        success: false,
+        message: 'Solicitud no encontrada'
+      });
+      return;
+    }
+
+    // Verificar que el usuario sea cliente o trabajador de la solicitud
+    if (solicitud.cliente_id.toString() !== req.user.id &&
+        solicitud.trabajador_id.toString() !== req.user.id) {
+      res.status(403).json({
+        success: false,
+        message: 'No tienes permiso para enviar mensajes en esta solicitud'
+      });
+      return;
+    }
+
+    // Determinar si es cliente o trabajador
+    const remitente = solicitud.cliente_id.toString() === req.user.id ? 'cliente' : 'trabajador';
+
+    solicitud.mensajes_chat.push({
+      remitente,
+      mensaje: mensaje.trim(),
+      timestamp: new Date()
+    });
+
+    await solicitud.save();
+
+    res.json({
+      success: true,
+      data: solicitud.mensajes_chat[solicitud.mensajes_chat.length - 1]
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message || 'Error al enviar mensaje'
+    });
+  }
+};
+
+export const getMensajesChat = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    if (!req.user) {
+      res.status(401).json({
+        success: false,
+        message: 'No autorizado'
+      });
+      return;
+    }
+
+    const solicitud = await Solicitud.findById(id);
+    if (!solicitud) {
+      res.status(404).json({
+        success: false,
+        message: 'Solicitud no encontrada'
+      });
+      return;
+    }
+
+    // Verificar que el usuario sea cliente o trabajador de la solicitud
+    if (solicitud.cliente_id.toString() !== req.user.id &&
+        solicitud.trabajador_id.toString() !== req.user.id) {
+      res.status(403).json({
+        success: false,
+        message: 'No tienes permiso para ver los mensajes de esta solicitud'
+      });
+      return;
+    }
+
+    res.json({
+      success: true,
+      data: solicitud.mensajes_chat
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message || 'Error al obtener mensajes'
+    });
+  }
+};
+
+export const completarSolicitud = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { evidencias } = req.body; // Array de URLs de evidencias
+
+    if (!req.user) {
+      res.status(401).json({
+        success: false,
+        message: 'No autorizado'
+      });
+      return;
+    }
+
+    const solicitud = await Solicitud.findById(id);
+    if (!solicitud) {
+      res.status(404).json({
+        success: false,
+        message: 'Solicitud no encontrada'
+      });
+      return;
+    }
+
+    // Verificar que el usuario sea cliente o trabajador de la solicitud
+    if (solicitud.cliente_id.toString() !== req.user.id &&
+        solicitud.trabajador_id.toString() !== req.user.id) {
+      res.status(403).json({
+        success: false,
+        message: 'No tienes permiso para completar esta solicitud'
+      });
+      return;
+    }
+
+    // Solo permitir completar si está aceptada
+    if (solicitud.estado !== 'aceptada') {
+      res.status(400).json({
+        success: false,
+        message: 'Solo puedes completar solicitudes aceptadas'
+      });
+      return;
+    }
+
+    solicitud.estado = 'completada';
+    solicitud.fecha_completado = new Date();
+
+    // Si es trabajador, puede agregar evidencias
+    if (solicitud.trabajador_id.toString() === req.user.id && evidencias) {
+      solicitud.evidencias_trabajador = evidencias;
+    }
+
+    await solicitud.save();
+
+    res.json({
+      success: true,
+      data: solicitud
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message || 'Error al completar solicitud'
+    });
+  }
+};
+
+export const subirEvidencia = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    if (!req.user) {
+      res.status(401).json({
+        success: false,
+        message: 'No autorizado'
+      });
+      return;
+    }
+
+    const solicitud = await Solicitud.findById(id);
+    if (!solicitud) {
+      res.status(404).json({
+        success: false,
+        message: 'Solicitud no encontrada'
+      });
+      return;
+    }
+
+    // Solo el trabajador puede subir evidencias
+    if (solicitud.trabajador_id.toString() !== req.user.id) {
+      res.status(403).json({
+        success: false,
+        message: 'Solo el trabajador puede subir evidencias'
+      });
+      return;
+    }
+
+    if (!req.file) {
+      res.status(400).json({
+        success: false,
+        message: 'No se recibió ningún archivo'
+      });
+      return;
+    }
+
+    // Guardar la URL del archivo (en producción usarías cloud storage)
+    const evidenciaUrl = `/uploads/${req.file.filename}`;
+    solicitud.evidencias_trabajador.push(evidenciaUrl);
+    await solicitud.save();
+
+    res.json({
+      success: true,
+      data: evidenciaUrl
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message || 'Error al subir evidencia'
+    });
+  }
+};
+
+// Middleware para subir archivos
+export const uploadMiddleware = upload.single('evidencia');

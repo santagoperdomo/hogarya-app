@@ -1,5 +1,5 @@
 const API_URL =
-  import.meta.env.VITE_API_URL || "/api";
+  import.meta.env.VITE_API_URL || "http://localhost:5000/api";
 
 // Helper para mapear _id a id (MongoDB a frontend)
 function mapMongoDoc(doc: any): any {
@@ -212,11 +212,38 @@ export const reseñas = {
 
 // Solicitudes de servicio
 export const solicitudes = {
+  create: async (data: any) => {
+    const response = await apiRequest('/solicitudes', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+    return {
+      success: response.success,
+      solicitud: mapMongoDoc(response.data)
+    };
+  },
+
+  getCliente: async () => {
+    const response = await apiRequest('/solicitudes/cliente');
+    return {
+      success: response.success,
+      data: mapMongoDoc(response.data || [])
+    };
+  },
+
   getTrabajador: async () => {
     const response = await apiRequest('/solicitudes/trabajador');
     return {
       success: response.success,
-      solicitudes: mapMongoDoc(response.data || [])
+      data: mapMongoDoc(response.data || [])
+    };
+  },
+
+  getById: async (id: string) => {
+    const response = await apiRequest(`/solicitudes/${id}`);
+    return {
+      success: response.success,
+      data: mapMongoDoc(response.data)
     };
   },
 
@@ -227,7 +254,76 @@ export const solicitudes = {
     });
     return {
       success: response.success,
-      solicitud: mapMongoDoc(response.data)
+      data: mapMongoDoc(response.data)
+    };
+  },
+
+  enviarMensaje: async (id: string, mensaje: string) => {
+    const response = await apiRequest(`/solicitudes/${id}/chat`, {
+      method: 'POST',
+      body: JSON.stringify({ mensaje }),
+    });
+    return {
+      success: response.success,
+      data: response.data
+    };
+  },
+
+  getMensajes: async (id: string) => {
+    const response = await apiRequest(`/solicitudes/${id}/chat`);
+    return {
+      success: response.success,
+      data: response.data || []
+    };
+  },
+
+  completar: async (id: string, evidencias?: string[]) => {
+    const response = await apiRequest(`/solicitudes/${id}/completar`, {
+      method: 'POST',
+      body: JSON.stringify({ evidencias }),
+    });
+    return {
+      success: response.success,
+      data: mapMongoDoc(response.data)
+    };
+  },
+
+  calificar: async (id: string, calificacion: number, comentario?: string, imagenes?: string[]) => {
+    const response = await apiRequest(`/solicitudes/${id}/calificar`, {
+      method: 'POST',
+      body: JSON.stringify({
+        calificacion,
+        comentario_calificacion: comentario,
+        imagenes_reseña: imagenes
+      }),
+    });
+    return {
+      success: response.success,
+      data: mapMongoDoc(response.data)
+    };
+  },
+
+  subirEvidencia: async (id: string, file: File) => {
+    const formData = new FormData();
+    formData.append('evidencia', file);
+
+    const token = localStorage.getItem("access_token");
+    const response = await fetch(`${API_URL}/solicitudes/${id}/evidencia`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+      body: formData,
+    });
+
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(data.message || 'Error al subir evidencia');
+    }
+
+    return {
+      success: data.success,
+      data: data.data
     };
   }
 };

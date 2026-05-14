@@ -3,11 +3,16 @@ import Landing from "./pages/Landing";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import ClienteDashboard from "./pages/ClienteDashboard";
+import ClienteSolicitudes from "./pages/ClienteSolicitudes";
+import ClienteChat from "./pages/ClienteChat";
+import ClienteCalificar from "./pages/ClienteCalificar";
 import TrabajadorDashboard from "./pages/TrabajadorDashboard";
 import Catalogo from "./pages/Catalogo";
 import SolicitarTrabajador from "./pages/SolicitarTrabajador";
 import TrabajadorPerfil from "./pages/TrabajadorPerfil";
 import TrabajadorSolicitudes from "./pages/TrabajadorSolicitudes";
+import TrabajadorChat from "./pages/TrabajadorChat";
+import TrabajadorEvidencia from "./pages/TrabajadorEvidencia";
 import TrabajadorOnboarding from "./pages/TrabajadorOnboarding";
 
 export const router = createBrowserRouter([
@@ -28,12 +33,32 @@ export const router = createBrowserRouter([
     Component: ClienteDashboard,
   },
   {
+    path: "/cliente/solicitudes",
+    Component: ClienteSolicitudes,
+  },
+  {
+    path: "/cliente/solicitudes/:id/chat",
+    Component: ClienteChat,
+  },
+  {
+    path: "/cliente/solicitudes/:id/calificar",
+    Component: ClienteCalificar,
+  },
+  {
     path: "/trabajador/dashboard",
     Component: TrabajadorDashboard,
   },
   {
     path: "/trabajador/solicitudes",
     Component: TrabajadorSolicitudes,
+  },
+  {
+    path: "/trabajador/solicitudes/:id/chat",
+    Component: TrabajadorChat,
+  },
+  {
+    path: "/trabajador/solicitudes/:id/evidencia",
+    Component: TrabajadorEvidencia,
   },
   {
     path: "/catalogo",

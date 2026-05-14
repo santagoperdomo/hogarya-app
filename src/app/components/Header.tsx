@@ -64,6 +64,18 @@ export default function Header({ user, onLogout }: HeaderProps) {
               Catálogo
             </Button>
 
+            {currentUser?.tipo === 'cliente' && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => navigate('/cliente/solicitudes')}
+                className="text-white hover:bg-[#26658C]/30"
+              >
+                <Bell className="w-4 h-4 mr-2" />
+                Mis solicitudes
+              </Button>
+            )}
+
             {currentUser ? (
               <>
                 {currentUser.tipo === 'trabajador' && (

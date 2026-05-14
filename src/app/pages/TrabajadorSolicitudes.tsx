@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
-import { ArrowLeft, Bell, CheckCircle, Clock, XCircle, MapPin, Phone, User, MessageCircle } from 'lucide-react';
+import { ArrowLeft, Bell, CheckCircle, Clock, XCircle, MapPin, Phone, User, MessageCircle, Upload, Star } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import Header from '../components/Header';
 import { auth, solicitudes } from '../utils/api';
@@ -65,6 +65,26 @@ export default function TrabajadorSolicitudes() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleChat = (solicitudId: string) => {
+    navigate(`/trabajador/solicitudes/${solicitudId}/chat`);
+  };
+
+  const handleCompletar = async (solicitudId: string) => {
+    try {
+      const response = await solicitudes.completar(solicitudId);
+      if (response.success) {
+        toast.success('Solicitud marcada como completada');
+        loadSolicitudes();
+      }
+    } catch (error) {
+      toast.error('Error al completar solicitud');
+    }
+  };
+
+  const handleSubirEvidencia = (solicitudId: string) => {
+    navigate(`/trabajador/solicitudes/${solicitudId}/evidencia`);
   };
 
   return (
@@ -161,9 +181,43 @@ export default function TrabajadorSolicitudes() {
                         <XCircle className="w-4 h-4 mr-2" /> Rechazar
                       </Button>
                     </div>
+                  ) : solicitud.estado === 'aceptada' ? (
+                    <div className="flex flex-wrap gap-2">
+                      <Button
+                        onClick={() => handleChat(solicitud.id || solicitud._id)}
+                        variant="outline"
+                        className="border-[#54ACBF] text-[#023859]"
+                      >
+                        <MessageCircle className="w-4 h-4 mr-2" /> Chat ({solicitud.mensajes_chat?.length || 0})
+                      </Button>
+                      <Button
+                        onClick={() => handleSubirEvidencia(solicitud.id || solicitud._id)}
+                        variant="outline"
+                        className="border-[#54ACBF] text-[#023859]"
+                      >
+                        <Upload className="w-4 h-4 mr-2" /> Subir evidencia
+                      </Button>
+                      <Button
+                        onClick={() => handleCompletar(solicitud.id || solicitud._id)}
+                        className="bg-green-600 hover:bg-green-700"
+                      >
+                        <CheckCircle className="w-4 h-4 mr-2" /> Marcar completada
+                      </Button>
+                    </div>
+                  ) : solicitud.estado === 'completada' ? (
+                    <div className="flex items-center gap-2 text-green-600">
+                      <CheckCircle className="w-5 h-5" />
+                      <span className="font-semibold">Trabajo completado</span>
+                      {solicitud.calificacion && (
+                        <div className="flex items-center gap-1">
+                          <Star className="w-4 h-4 fill-current" />
+                          <span className="text-sm">{solicitud.calificacion}/5</span>
+                        </div>
+                      )}
+                    </div>
                   ) : (
                     <div className="text-sm text-gray-500">
-                      {solicitud.estado === 'aceptada' ? 'Ya aceptaste esta solicitud' : solicitud.estado === 'rechazada' ? 'Solicitud rechazada' : 'Solicitud cerrada'}
+                      {solicitud.estado === 'rechazada' ? 'Solicitud rechazada' : 'Solicitud cerrada'}
                     </div>
                   )}
                 </div>

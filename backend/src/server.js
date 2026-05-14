@@ -13,6 +13,7 @@ import trabajadoresRoutes from './routes/trabajadores.routes.js';
 import reseñasRoutes from './routes/reseñas.routes.js';
 import perfilRoutes from './routes/perfil.routes.js';
 import solicitudesRoutes from './routes/solicitudes.routes.js';
+import { uploadMiddleware } from './controllers/solicitudes.controller.js';
 
 dotenv.config();
 
@@ -52,6 +53,9 @@ app.use(express.json({ limit: '10mb' })); // Limita tamaño de payload
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 app.use(express.static(publicPath));
+
+// Servir archivos estáticos de uploads
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.get('/', (req, res) => {
   res.sendFile(path.join(publicPath, 'index.html'));
