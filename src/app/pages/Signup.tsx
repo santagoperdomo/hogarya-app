@@ -1,4 +1,4 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { Home, UserPlus } from 'lucide-react';
 import { Button } from '../components/ui/button';
@@ -7,6 +7,8 @@ import { Label } from '../components/ui/label';
 import { RadioGroup, RadioGroupItem } from '../components/ui/radio-group';
 import { auth } from '../utils/api';
 import { toast } from 'sonner';
+
+const signupImage = new URL('../../../imagenes/CortarTubo.jpg', import.meta.url).href;
 
 export default function Signup() {
   const navigate = useNavigate();
@@ -34,11 +36,9 @@ export default function Signup() {
 
       if (response.success) {
         toast.success('¡Cuenta creada exitosamente!');
-        // Auto-login después del registro
         await auth.login(formData.email, formData.password);
         toast.success('¡Bienvenido a HogarYa!');
 
-        // Si es trabajador, ir al onboarding; si es cliente, ir al catálogo
         if (formData.tipo === 'trabajador') {
           navigate('/trabajador/onboarding');
         } else {
@@ -59,60 +59,8 @@ export default function Signup() {
 
   return (
     <div className="min-h-screen grid grid-cols-1 lg:grid-cols-2">
-      {/* Lado izquierdo - Branding */}
-      <div className="hidden lg:flex flex-col justify-center p-12" style={{ backgroundColor: '#011C40' }}>
-        <div className="max-w-md">
-          <div className="flex items-center space-x-2 mb-8">
-            <Home className="w-10 h-10" style={{ color: '#A7EBF2' }} />
-            <span className="text-3xl font-bold text-white">HogarYa</span>
-          </div>
-          
-          <h1 className="text-4xl font-bold text-white mb-6">
-            Únete a nuestra comunidad
-          </h1>
-          
-          <p className="text-lg text-white/80 mb-8">
-            Más de 18,000 hogares confían en HogarYa para sus necesidades del hogar
-          </p>
-          
-          <div className="space-y-4">
-            <div className="flex items-center space-x-3">
-              <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{ backgroundColor: 'rgba(167, 235, 242, 0.2)' }}>
-                <span className="text-2xl">🏠</span>
-              </div>
-              <div>
-                <p className="font-semibold text-white">Registro gratuito</p>
-                <p className="text-sm text-white/60">Crea tu cuenta en menos de 2 minutos</p>
-              </div>
-            </div>
-            
-            <div className="flex items-center space-x-3">
-              <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{ backgroundColor: 'rgba(167, 235, 242, 0.2)' }}>
-                <span className="text-2xl">🔒</span>
-              </div>
-              <div>
-                <p className="font-semibold text-white">100% seguro</p>
-                <p className="text-sm text-white/60">Tus datos protegidos siempre</p>
-              </div>
-            </div>
-            
-            <div className="flex items-center space-x-3">
-              <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{ backgroundColor: 'rgba(167, 235, 242, 0.2)' }}>
-                <span className="text-2xl">✨</span>
-              </div>
-              <div>
-                <p className="font-semibold text-white">Sin comisiones ocultas</p>
-                <p className="text-sm text-white/60">Transparencia total en cada servicio</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Lado derecho - Formulario */}
       <div className="flex items-center justify-center p-8 bg-white">
         <div className="w-full max-w-md">
-          {/* Logo móvil */}
           <div className="lg:hidden text-center mb-8">
             <div className="flex items-center justify-center space-x-2 mb-4">
               <Home className="w-8 h-8" style={{ color: '#54ACBF' }} />
@@ -269,7 +217,6 @@ export default function Signup() {
             </p>
           </div>
 
-          {/* Volver al inicio */}
           <div className="text-center mt-6">
             <button
               onClick={() => navigate('/')}
@@ -277,6 +224,61 @@ export default function Signup() {
             >
               ← Volver al inicio
             </button>
+          </div>
+        </div>
+      </div>
+
+      <div className="hidden lg:flex flex-col justify-center p-12 relative overflow-hidden">
+        <img
+          src={signupImage}
+          alt="Trabajo doméstico"
+          className="absolute inset-0 h-full w-full object-cover opacity-80 blur-sm"
+        />
+        <div className="absolute inset-0 bg-slate-950/55" />
+        <div className="relative z-10 max-w-md text-white">
+          <div className="flex items-center space-x-2 mb-8">
+            <Home className="w-10 h-10" style={{ color: '#A7EBF2' }} />
+            <span className="text-3xl font-bold text-white">HogarYa</span>
+          </div>
+
+          <h1 className="text-4xl font-bold text-white mb-6">
+            Únete a nuestra comunidad
+          </h1>
+
+          <p className="text-lg text-white/80 mb-8">
+            Más de 18,000 hogares confían en HogarYa para sus necesidades del hogar
+          </p>
+
+          <div className="space-y-4">
+            <div className="flex items-center space-x-3">
+              <div className="w-12 h-12 rounded-full flex items-center justify-center bg-white/10">
+                <span className="text-2xl">🏠</span>
+              </div>
+              <div>
+                <p className="font-semibold text-white">Registro gratuito</p>
+                <p className="text-sm text-white/70">Crea tu cuenta en menos de 2 minutos</p>
+              </div>
+            </div>
+
+            <div className="flex items-center space-x-3">
+              <div className="w-12 h-12 rounded-full flex items-center justify-center bg-white/10">
+                <span className="text-2xl">🔒</span>
+              </div>
+              <div>
+                <p className="font-semibold text-white">100% seguro</p>
+                <p className="text-sm text-white/70">Tus datos protegidos siempre</p>
+              </div>
+            </div>
+
+            <div className="flex items-center space-x-3">
+              <div className="w-12 h-12 rounded-full flex items-center justify-center bg-white/10">
+                <span className="text-2xl">✨</span>
+              </div>
+              <div>
+                <p className="font-semibold text-white">Sin comisiones ocultas</p>
+                <p className="text-sm text-white/70">Transparencia total en cada servicio</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>

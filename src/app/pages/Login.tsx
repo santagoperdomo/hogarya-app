@@ -7,6 +7,8 @@ import { Label } from '../components/ui/label';
 import { auth } from '../utils/api';
 import { toast } from 'sonner';
 
+const loginImage = new URL('../../../imagenes/Taladro1.jpg', import.meta.url).href;
+
 export default function Login() {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
@@ -35,9 +37,15 @@ export default function Login() {
 
   return (
     <div className="min-h-screen grid grid-cols-1 lg:grid-cols-2">
-      {/* Lado izquierdo - Branding */}
-      <div className="hidden lg:flex flex-col justify-center p-12" style={{ backgroundColor: '#011C40' }}>
-        <div className="max-w-md">
+      {/* Lado izquierdo - Branding con imagen */}
+      <div className="hidden lg:flex flex-col justify-center p-12 relative overflow-hidden">
+        <img
+          src={loginImage}
+          alt="Servicio de mantenimiento"
+          className="absolute inset-0 h-full w-full object-cover opacity-80 blur-sm"
+        />
+        <div className="absolute inset-0 bg-slate-950/55" />
+        <div className="relative z-10 max-w-md text-white">
           <div className="flex items-center space-x-2 mb-8">
             <Home className="w-10 h-10" style={{ color: '#A7EBF2' }} />
             <span className="text-3xl font-bold text-white">HogarYa</span>
@@ -53,32 +61,32 @@ export default function Login() {
           
           <div className="space-y-4">
             <div className="flex items-center space-x-3">
-              <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{ backgroundColor: 'rgba(167, 235, 242, 0.2)' }}>
+              <div className="w-12 h-12 rounded-full flex items-center justify-center bg-white/10">
                 <span className="text-2xl">✓</span>
               </div>
               <div>
                 <p className="font-semibold text-white">2,400+ profesionales</p>
-                <p className="text-sm text-white/60">Verificados y listos para ayudarte</p>
+                <p className="text-sm text-white/70">Verificados y listos para ayudarte</p>
               </div>
             </div>
             
             <div className="flex items-center space-x-3">
-              <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{ backgroundColor: 'rgba(167, 235, 242, 0.2)' }}>
+              <div className="w-12 h-12 rounded-full flex items-center justify-center bg-white/10">
                 <span className="text-2xl">⭐</span>
               </div>
               <div>
                 <p className="font-semibold text-white">Calificación 4.8/5</p>
-                <p className="text-sm text-white/60">Miles de clientes satisfechos</p>
+                <p className="text-sm text-white/70">Miles de clientes satisfechos</p>
               </div>
             </div>
             
             <div className="flex items-center space-x-3">
-              <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{ backgroundColor: 'rgba(167, 235, 242, 0.2)' }}>
+              <div className="w-12 h-12 rounded-full flex items-center justify-center bg-white/10">
                 <span className="text-2xl">⚡</span>
               </div>
               <div>
                 <p className="font-semibold text-white">Respuesta en 45min</p>
-                <p className="text-sm text-white/60">Atención rápida garantizada</p>
+                <p className="text-sm text-white/70">Atención rápida garantizada</p>
               </div>
             </div>
           </div>

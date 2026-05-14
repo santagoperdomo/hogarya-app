@@ -3,6 +3,8 @@ import { CheckCircle, Home, Users, Shield, Search, Wrench, Sparkles, ArrowRight,
 import { Button } from '../components/ui/button';
 import { auth } from '../utils/api';
 
+const landingHeroImage = new URL('../../../imagenes/Casco amarillo.jpg', import.meta.url).href;
+
 export default function Landing() {
   const navigate = useNavigate();
 
@@ -204,16 +206,18 @@ export default function Landing() {
               </div>
             </div>
             
-            {/* Image placeholder - using gradient for now */}
-            <div className="hidden lg:block relative">
-              <div 
-                className="rounded-3xl h-96 shadow-2xl overflow-hidden"
-                style={{ 
-                  background: 'linear-gradient(135deg, #26658C 0%, #54ACBF 100%)',
-                }}
-              >
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <Wrench className="w-32 h-32 text-white/20" />
+            <div className="hidden lg:block relative rounded-3xl h-96 shadow-2xl overflow-hidden">
+              <img
+                src={landingHeroImage}
+                alt="Profesionales brindando servicio doméstico"
+                className="absolute inset-0 h-full w-full object-cover"
+              />
+              <div className="absolute inset-0 bg-slate-950/45" />
+              <div className="relative z-10 h-full flex flex-col justify-end p-8">
+                <div className="rounded-3xl bg-white/10 p-6 backdrop-blur-xl border border-white/10">
+                  <p className="text-sm font-semibold text-white mb-3">Servicio rápido y confiable</p>
+                  <h2 className="text-3xl font-bold text-white">Trabajadores listos para tu hogar</h2>
+                  <p className="mt-3 text-white/80">Filtrados por experiencia, ubicación y valoraciones reales.</p>
                 </div>
               </div>
             </div>
