@@ -93,11 +93,11 @@ export default function TrabajadorDashboard() {
   };
 
   const handleSaveProfile = async () => {
-    if (!user) return;
+    if (!user || !trabajador?.id) return;
     
     setLoading(true);
     try {
-      const response = await trabajadores.update(user.id, formData);
+      const response = await trabajadores.update(trabajador.id, formData);
       
       if (response?.success) {
         setTrabajador(response.trabajador);
